@@ -112,7 +112,13 @@ Or open `/submit-implementation` and choose the retained `team/helloworld@spec-v
 Expected result: **awaiting_build**, with unknown ETA. M2 retains source and checks
 the frozen binding; it does not compile or run submitted code. Register the spec
 first, and keep the public repository allowlisted. An unchanged full SHA can also
-exercise the revision endpoint: `cannery revise SUBMISSION_UUID --commit "$SHA"`.
+exercise the revision endpoint from the Cannery checkout:
+
+```bash
+docker compose exec -T api cannery revise SUBMISSION_UUID \
+  --commit "$SHA" --url http://api:8000 --wait
+```
+
 A new code commit creates a separate immutable revision with the same frozen target.
 
 ## Run the example tests
