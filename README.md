@@ -80,9 +80,50 @@ A pending `--wait` timeout does not cancel the job. Inspect the printed ID throu
 `/api/v1/registrations/{id}`. A failed job exposes a safe error code; fix its cause
 and submit a fresh registration.
 
+## Toy M2 submission
+
+The directory **candidates/helloworld** provides a toy submission for the same
+`team/helloworld@spec-v1`. It contains `submission.yaml` and a portable C++ scalar
+loop implementing `x + 1`. The manifest selects the recognized `ascendc`/`a5`
+source-intake path. This fixture is for **M2 workflow testing**: the host tests check
+its math, but it is not an Ascend device kernel or an NPU-validated binary. Real
+Ascend compilation, launch integration and evaluation are later milestones.
+
+Use the full main SHA obtained above, then submit from your Cannery checkout:
+
+```bash
+docker compose exec -T api cannery submit team/helloworld \
+  --spec-version 1 --device a5 --lang ascendc \
+  --repo "$REPO" --commit "$SHA" --path candidates/helloworld \
+  --url http://api:8000 --wait
+```
+
+Or open `/submit-implementation` and choose the retained `team/helloworld@spec-v1`:
+
+| Field | Value |
+|---|---|
+| Device | `a5` |
+| Language | `ascendc` |
+| Git repository URL | `https://github.com/huawei-cpl-zurich/helloworld-kernel.git` |
+| Full commit SHA | The full main SHA obtained above |
+| Source directory | `candidates/helloworld` |
+| Shared dependency paths | Leave empty |
+
+Expected result: **awaiting_build**, with unknown ETA. M2 retains source and checks
+the frozen binding; it does not compile or run submitted code. Register the spec
+first, and keep the public repository allowlisted. An unchanged full SHA can also
+exercise the revision endpoint from the Cannery checkout:
+
+```bash
+docker compose exec -T api cannery revise SUBMISSION_UUID \
+  --commit "$SHA" --url http://api:8000 --wait
+```
+
+A new code commit creates a separate immutable revision with the same frozen target.
+
 ## Run the example tests
 
-From this repository with Python 3.12:
+From this repository with Python 3.12 and a C++17 compiler:
 
 ```bash
 python -m venv .venv
