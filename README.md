@@ -134,3 +134,25 @@ python -m unittest discover -s tests -v
 
 See [Cannery registration documentation](https://github.com/huawei-cpl-zurich/cannery/blob/main/docs/registration.md)
 for schema, operator configuration, immutable snapshots and diagnostic limitations.
+
+## Native M3 submission
+
+**candidates/helloworld_ascendc** contains an Ascend C float32 add-one kernel
+using Cannery's explicit `unary-f32-v1` ABI. Keep the M2 toy directory for source
+intake tests. The native example requires an operator-configured M3 builder,
+private artifact storage and an A5 worker; CPU CI does not compile Ascend C.
+
+After registering the spec and obtaining the full main SHA above:
+
+```bash
+docker compose exec -T api cannery submit team/helloworld \
+  --spec-version 1 --device a5 --lang ascendc \
+  --repo "$REPO" --commit "$SHA" --path candidates/helloworld_ascendc \
+  --url http://api:8000 --wait-build
+```
+
+Expected result: **awaiting_validation** after private binary admission. The
+builder checks loading, calling, tensor shape, dtype and device. Full correctness
+evaluation and benchmarks remain pending; this is a scalar example without a
+performance claim. Compiler, transport and device failures produce bounded
+retries or a terminal error visible through the submission status.
