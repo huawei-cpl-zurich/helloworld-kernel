@@ -1,0 +1,12 @@
+schema_version: 1
+generator: sha256-f32-v1
+cases:
+  - id: small
+    inputs:
+      x: {shape: [2, 3], distribution: uniform_f32, seed: 42}
+  - id: strided
+    inputs:
+      x: {shape: [4, 3], distribution: arange_f32, seed: 42, layout: transpose}
+  - id: empty
+    inputs:
+      x: {shape: [0, 3], distribution: zeros_f32, seed: 42}

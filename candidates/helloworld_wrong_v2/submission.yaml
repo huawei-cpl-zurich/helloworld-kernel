@@ -1,0 +1,16 @@
+schema_version: 1
+kernel: team/helloworld
+spec_version: 2
+implementation:
+  device: a5
+  language: ascendc
+  entrypoint: kernel.cpp:forward
+  build:
+    adapter: ascendc
+    abi: unary-f32-v1
+    inputs: [kernel.cpp]
+    artifact: helloworld_a5
+    options: {optimization: release}
+validation:
+  requested_rtol: 0.00001
+  requested_atol: 0.000001

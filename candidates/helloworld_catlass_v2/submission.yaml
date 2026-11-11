@@ -1,0 +1,22 @@
+schema_version: 1
+kernel: team/helloworld
+spec_version: 2
+implementation:
+  device: a5
+  language: catlass
+  entrypoint: kernel.py:forward
+  build:
+    adapter: catlass
+    abi: catlass-unary-f32-v1
+    inputs:
+    - kernel.py
+    artifact: helloworld_catlass_a5
+    options:
+      optimization: release
+    specializations:
+    - {shape: [2, 3], dtype: float32}
+    - {shape: [4, 3], dtype: float32}
+    - {shape: [0, 3], dtype: float32}
+validation:
+  requested_rtol: 1.0e-05
+  requested_atol: 1.0e-06
