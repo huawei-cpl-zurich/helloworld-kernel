@@ -156,3 +156,26 @@ builder checks loading, calling, tensor shape, dtype and device. Full correctnes
 evaluation and benchmarks remain pending; this is a scalar example without a
 performance claim. Compiler, transport and device failures produce bounded
 retries or a terminal error visible through the submission status.
+
+## Native M4 CATLASS submission
+
+**candidates/helloworld_catlass** provides the same add-one operation as a CATLASS
+DSL A5 vector kernel. It declares float32 shapes `[17]`, `[3, 7]` and `[0]` under
+`catlass-unary-f32-v1`. Cannery compiles the two positive element counts before
+publication; the runtime loads embedded device objects without CATLASS or JIT.
+The empty shape needs no device launch. Other shapes are rejected.
+
+This example requires an M4 builder with a pinned CATLASS toolchain and private
+artifact backend. After registering the spec, use the full main SHA above:
+
+```bash
+docker compose exec -T api cannery submit team/helloworld \
+  --spec-version 1 --device a5 --lang catlass \
+  --repo "$REPO" --commit "$SHA" --path candidates/helloworld_catlass \
+  --url http://api:8000 --wait-build
+```
+
+Expected result: **awaiting_validation** after binary compilation, private artifact
+readback and an isolated A5 load/call smoke for every declared shape. Correctness
+scoring and benchmarks remain pending; this small kernel makes no performance
+claim. Preserve the separate M2 source-only and M3 Ascend C examples.
