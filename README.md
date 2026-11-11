@@ -179,3 +179,12 @@ Expected result: **awaiting_validation** after binary compilation, private artif
 readback and an isolated A5 load/call smoke for every declared shape. Correctness
 scoring and benchmarks remain pending; this small kernel makes no performance
 claim. Preserve the separate M2 source-only and M3 Ascend C examples.
+
+
+## Seeded numerical verification (v2)
+
+Use [the numerical v2 guide](NUMERICAL-V2.md) for `spec-v2` and matching A5
+Ascend C/CATLASS candidates. Its CPU baseline outputs are cached once at ingress;
+submissions regenerate seeded inputs and compare against those stored outputs.
+A deliberate add-two fixture checks numerical rejection after binary admission.
+All v1 directories above remain available.

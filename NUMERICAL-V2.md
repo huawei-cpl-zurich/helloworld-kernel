@@ -27,3 +27,31 @@ For each submission, both spec default and requested tolerance pairs must pass
 on every case. Passing numerical validation does not produce a benchmark score.
 A5 compilation and execution require the configured worker. CPU checks alone
 do not establish device correctness.
+
+
+## Manual submission
+
+Obtain `REPO` and the full main `SHA` as shown in the repository README. After an
+operator has enabled Cannery numerical services, register the v2 source:
+
+```bash
+cannery register --url http://localhost:8095 --repo "$REPO" \
+  --commit "$SHA" --path spec-v2 --wait
+```
+
+Adding v2 to an existing v1 kernel requires administrator authorization. An
+operator should perform that registration once; ordinary users can reuse it.
+Submit either correct implementation, replacing the language and path together:
+
+```bash
+cannery submit team/helloworld --url http://localhost:8095 \
+  --spec-version 2 --device a5 --lang ascendc --repo "$REPO" \
+  --commit "$SHA" --path candidates/helloworld_ascendc_v2 --wait-build
+cannery submission SUBMISSION_UUID --url http://localhost:8095
+```
+
+For CATLASS use `--lang catlass --path candidates/helloworld_catlass_v2`.
+For the deliberate numerical failure use `--lang ascendc --path
+candidates/helloworld_wrong_v2`. `--wait-build` observes binary admission;
+inspect the submission ID for the later numerical outcome and per-case metrics.
+Use your configured API URL if it differs from port 8095.
