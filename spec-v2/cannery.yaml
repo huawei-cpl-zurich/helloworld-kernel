@@ -1,0 +1,16 @@
+schema_version: 1
+kernel:
+  namespace: team
+  name: helloworld
+  description: "Hello world: add one to a CPU tensor."
+spec:
+  version: 2
+  reference: {file: reference.py, function: reference}
+  cases: {recipe_file: recipes.yaml}
+  interface: {inputs: [x], outputs: [result]}
+  validation:
+    metric: torch_close
+    equal_nan: false
+    default_rtol: 0.00001
+    default_atol: 0.000001
+  environment_lock: environment.lock
