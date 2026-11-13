@@ -15,7 +15,8 @@ After v2 registration, submit one of these directories using a full Git SHA:
 
 | Directory | Language | Expected numerical outcome |
 |---|---|---|
-| `candidates/helloworld_ascendc_v2` | ascendc | awaiting_benchmark |
+| `candidates/helloworld_ascendc_v2` (A5) | ascendc | awaiting_benchmark |
+| `candidates/helloworld_ascendc_a3_v2` (A3) | ascendc | awaiting_benchmark |
 | `candidates/helloworld_catlass_v2` | catlass | awaiting_benchmark |
 | `candidates/helloworld_wrong_v2` | ascendc | failed |
 
@@ -55,3 +56,22 @@ For the deliberate numerical failure use `--lang ascendc --path
 candidates/helloworld_wrong_v2`. `--wait-build` observes binary admission;
 inspect the submission ID for the later numerical outcome and per-case metrics.
 Use your configured API URL if it differs from port 8095.
+
+
+## A3 Ascend C
+
+The A3 candidate uses the same frozen v2 spec, seeded inputs and cached CPU
+baseline. It needs a validated A3 worker; CATLASS DSL remains A5-only.
+
+```bash
+cannery submit team/helloworld --url http://localhost:8095 \
+  --spec-version 2 --device a3 --lang ascendc --repo "$REPO" \
+  --commit "$SHA" --path candidates/helloworld_ascendc_a3_v2 --wait-build
+```
+
+Inspect the returned submission ID for correctness and benchmark completion.
+Publish explicitly with `cannery publish SUBMISSION_UUID --url http://localhost:8095 --wait`.
+Global Best separates A3 and A5 devices and their exact runtime cohorts. Repeating
+an existing source submission reuses completed results; explicit reruns are not
+supported. Compatible C++ headers may use the existing Ascend C adapter, which
+expects one translation unit and the unary float32 ABI.
