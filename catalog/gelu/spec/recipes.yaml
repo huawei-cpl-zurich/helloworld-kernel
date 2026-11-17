@@ -1,0 +1,19 @@
+cases:
+- id: n4096
+  inputs:
+    x:
+      distribution: uniform
+      dtype: float16
+      seed: 42
+      shape:
+      - 4096
+- id: n16384
+  inputs:
+    x:
+      distribution: uniform
+      dtype: float16
+      seed: 43
+      shape:
+      - 16384
+generator: sha256-tensor-v2
+schema_version: 2

@@ -1,0 +1,26 @@
+cases:
+  n16384:
+    aliases:
+      out: x
+    outputs:
+      out:
+        dtype: float16
+        shape:
+        - 16384
+    scalars:
+      approximate_tanh:
+        kind: bool
+        value: true
+  n4096:
+    aliases:
+      out: x
+    outputs:
+      out:
+        dtype: float16
+        shape:
+        - 4096
+    scalars:
+      approximate_tanh:
+        kind: bool
+        value: false
+schema_version: 2
