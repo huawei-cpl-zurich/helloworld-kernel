@@ -1,0 +1,25 @@
+{
+  "repository": "https://gitcode.com/Ascend/triton-ascend-kernels",
+  "revision": "57e8a819cc1166643e0da395e55039c5e15eb3bb",
+  "path": "src/triton_ascend_kernels/attention/paged_attention.py",
+  "committed_at": "2026-04-09T15:54:54+08:00",
+  "source_sha256": "fc824f3162fa2835d52a54c158a35d828673cff2649fc69f89f4f6afa60cf732",
+  "kernel_ast_sha256": "e3a41794a9ddefc67d7026eb86b96046e91afe4a038407914fe3c16c344e7174",
+  "status": "cpu_compiled_full_source_awaiting_website_validation",
+  "integration": "Verbatim original generic paged forward GPU kernel and helpers, copyright and version helper preface; unused split/reduce kernels and host launcher omitted. Host factory unchanged.",
+  "extraction": {
+    "prefix_last_line": 28,
+    "first_line": 275,
+    "last_line": 458,
+    "functions": [
+      "_convert_pv",
+      "_fwd_kernel",
+      "tanh"
+    ],
+    "verbatim_sha256": "b3178f048b510f974b9525bc032ae572aed29b787aee31fdbc6a8bdb1572e5e2",
+    "gpu_ast_sha256": "e3a41794a9ddefc67d7026eb86b96046e91afe4a038407914fe3c16c344e7174",
+    "extracted_file_sha256": "8e6e2473a36a15d041b50385e5ed6df979217712d3edd3f9768c2a89d9da3edb"
+  },
+  "license_path": "LICENSE",
+  "license_sha256": "e3e715e6d251c826acf0fbbce5971bc71f3616ab99f7a1c290ce10964bfed86e"
+}
