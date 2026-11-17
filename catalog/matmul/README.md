@@ -23,7 +23,13 @@ published. A slower passing revision is still retained and published.
 | --- | --- |
 | `a6ee6dbd09f58cf9589f87b9d4d4f0e2cbfc41e9` | Numerical verification passed. Timing ran, but evidence collection exceeded its deadline during a transport outage; no published result. |
 | `51d56c10b03c8bec48826dee9d7417b2b9083483` | Published after full A5 validation; geometric-mean speedup 0.599× against the shared reference. |
+| `680cd6c42edee64a496edc76d751442e66f36100` (CATLASS DSL) | Published after full A5 validation; geometric-mean speedup 0.630× against the same cached reference. |
 
 Failed infrastructure attempts remain recorded and are not counted as published
 working revisions. Existing completed references are reused; these source changes
 are genuine upstream kernel evolution, not an explicit rerun.
+
+`catlass/` retains the original basic MMAD GPU function and matching parameter
+helper. Its snapshot notes describe the source import; this table records the
+completed website qualification. The older fb110921 revision compiled to a
+byte-identical native library, so only the latest 680cd6c4 revision is selected.
