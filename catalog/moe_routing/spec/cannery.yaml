@@ -1,0 +1,24 @@
+kernel:
+  description: moe routing
+  name: moe_routing
+  namespace: team
+schema_version: 2
+spec:
+  cases:
+    recipe_file: recipes.yaml
+    tensor_contract_file: tensor-contract.yaml
+  interface:
+    inputs:
+    - logits
+    outputs:
+    - weights
+    - experts
+    - source_rows
+  reference:
+    file: reference.py
+    function: reference
+  validation:
+    default_atol: 0.0001
+    default_rtol: 0.001
+    metric: torch_close
+  version: 1
