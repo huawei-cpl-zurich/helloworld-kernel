@@ -22,7 +22,7 @@ published. A slower passing revision is still retained and published.
 | Upstream revision | Test-site outcome |
 | --- | --- |
 | `a6ee6dbd09f58cf9589f87b9d4d4f0e2cbfc41e9` | Numerical verification passed. Timing ran, but evidence collection exceeded its deadline during a transport outage; no published result. |
-| `51d56c10b03c8bec48826dee9d7417b2b9083483` | Imported next; validation pending. |
+| `51d56c10b03c8bec48826dee9d7417b2b9083483` | Published after full A5 validation; geometric-mean speedup 0.599× against the shared reference. |
 
 Failed infrastructure attempts remain recorded and are not counted as published
 working revisions. Existing completed references are reused; these source changes
