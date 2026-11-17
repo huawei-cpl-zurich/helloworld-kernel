@@ -1,0 +1,11 @@
+{
+  "repository": "https://gitcode.com/Ascend/triton-ascend-kernels",
+  "revision": "b03ffefc0c48c87c0f01d4ef1c7d5f5be34f219a",
+  "path": "src/triton_ascend_kernels/activation/swiglu.py",
+  "committed_at": "2026-01-08T10:13:40+08:00",
+  "source_sha256": "93beaeaaf3120d6777c95d9a64edca799d2db5413a7f2a407e7d1d5928af53da",
+  "kernel_ast_sha256": "9dbe330c662c62d01031c8dca462bee3c29c7265a2e450d5bdc6b9dcead87897",
+  "status": "awaiting_website_validation",
+  "license_path": "LICENSE",
+  "license_sha256": "e3e715e6d251c826acf0fbbce5971bc71f3616ab99f7a1c290ce10964bfed86e"
+}
