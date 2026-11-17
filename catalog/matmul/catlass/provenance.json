@@ -1,0 +1,22 @@
+{
+  "repository": "https://gitcode.com/cann/catlass",
+  "revision": "680cd6c42edee64a496edc76d751442e66f36100",
+  "committed_at": "2026-11-13T16:27:47+08:00",
+  "path": "examples/python/tla_dsl/tla/kernel/matmul/basic_mmad/basic_matmul.py",
+  "source_sha256": "c12e1a3b8412734ebff754ac754d749a0effbcbeeaf380c0dfd112976a9df129",
+  "extraction": {
+    "first_line": 37,
+    "last_line": 323,
+    "function": "basic_mmad_kernel",
+    "verbatim_sha256": "2fe3be08a3d6aa66ef00429142f878de2df133ccf3cf8f499750764dae6c9f8c",
+    "gpu_ast_sha256": "3cf9e112e56c7ea72dd783c08615975b34f841040ad5241bea1933f802c7391b",
+    "extracted_file_sha256": "9ad078772b1b168a585657bc85bc54b458607166c3bed182fc51398944b22779"
+  },
+  "dependencies": {
+    "examples/python/tla_dsl/helpers/params.py": "bbfb0fe41e7db28e80d82aef38ff400d4e500dccc502b6d531cd78fc28f86c03"
+  },
+  "status": "cpu_compiled_awaiting_website_validation",
+  "integration": "verbatim original GPU function and copyright; original matching params.py; unused host benchmark and unrelated helpers omitted, static host descriptor factory unchanged",
+  "license_path": "LICENSE",
+  "license_sha256": "89b1c114df62cfd183004f38d18d07f186436c3b37203dd69c3e84becf9d2282"
+}
