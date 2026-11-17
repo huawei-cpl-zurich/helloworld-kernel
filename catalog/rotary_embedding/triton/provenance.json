@@ -1,0 +1,24 @@
+{
+  "repository": "https://github.com/flagos-ai/FlagGems",
+  "revision": "b684fbc78add740db16dd414cad75dd2d2105ae3",
+  "path": "src/flag_gems/runtime/backend/_ascend/fused/rotary_embedding.py",
+  "committed_at": "2026-07-18T21:35:28+08:00",
+  "source_sha256": "c4e28c8c2a16cda1ed9bd88f57b14c465314639999a280e8db620aef9167da58",
+  "kernel_ast_sha256": "2af44ef7c6b5cfe0fff025c0ec5df48f84fe1498984b90df536af417f941d2ac",
+  "dependencies": {},
+  "status": "staged_not_validated",
+  "integration": "Verbatim original SISO GPU function AND called RW helper with copyright; unused host demo omitted; original host decorator unwrapping preserved.",
+  "extraction": {
+    "first_line": 29,
+    "last_line": 179,
+    "functions": [
+      "rotary_embedding_rw_kernel",
+      "rotary_embedding_siso_kernel"
+    ],
+    "verbatim_sha256": "82fc669163db3e9c9f3deb4f18ef0163d8f91612b4ed34217c1830e004953bf4",
+    "gpu_ast_sha256": "bbf6e067bf9cdd1112fd3ab403eb720de41df48674e966156c8f06c9a750e5a1",
+    "extracted_file_sha256": "9fdeb79ac2f6e2b33c429f6f02e3f9212e7f188637237ed17c75a768159a7dbf"
+  },
+  "license_path": "LICENSE",
+  "license_sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+}
