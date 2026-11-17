@@ -1,0 +1,37 @@
+cases:
+- id: tokens32_dim64
+  inputs:
+    indices:
+      distribution: randint
+      dtype: int64
+      high: 127
+      low: 0
+      seed: 43
+      shape:
+      - 32
+    weight:
+      distribution: uniform
+      dtype: float16
+      seed: 42
+      shape:
+      - 128
+      - 64
+- id: tokens45_dim128
+  inputs:
+    indices:
+      distribution: randint
+      dtype: int64
+      high: 256
+      low: 0
+      seed: 43
+      shape:
+      - 45
+    weight:
+      distribution: uniform
+      dtype: float16
+      seed: 42
+      shape:
+      - 257
+      - 128
+generator: sha256-tensor-v2
+schema_version: 2

@@ -1,0 +1,20 @@
+cases:
+  tokens32_dim64:
+    aliases: {}
+    outputs:
+      out:
+        dtype: float16
+        shape:
+        - 32
+        - 64
+    scalars: {}
+  tokens45_dim128:
+    aliases: {}
+    outputs:
+      out:
+        dtype: float16
+        shape:
+        - 45
+        - 128
+    scalars: {}
+schema_version: 2
