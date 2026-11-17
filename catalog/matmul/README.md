@@ -16,3 +16,14 @@ source dates describe provenance. All performance measurements use the current
 frozen A5 environment; they are not measurements from the historical dates.
 This branch remains open until the selected working revisions are validated and
 published. A slower passing revision is still retained and published.
+
+## Imported revisions
+
+| Upstream revision | Test-site outcome |
+| --- | --- |
+| `a6ee6dbd09f58cf9589f87b9d4d4f0e2cbfc41e9` | Numerical verification passed. Timing ran, but evidence collection exceeded its deadline during a transport outage; no published result. |
+| `51d56c10b03c8bec48826dee9d7417b2b9083483` | Imported next; validation pending. |
+
+Failed infrastructure attempts remain recorded and are not counted as published
+working revisions. Existing completed references are reused; these source changes
+are genuine upstream kernel evolution, not an explicit rerun.
