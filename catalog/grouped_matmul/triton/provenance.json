@@ -1,0 +1,22 @@
+{
+  "repository": "https://github.com/flagos-ai/FlagGems",
+  "revision": "0099ed31d37c21ff9f0e2b974a7f2429b8310160",
+  "path": "src/flag_gems/runtime/backend/_ascend/ops/grouped_matmul.py",
+  "committed_at": "2026-09-16T17:13:27+08:00",
+  "source_sha256": "77fbd9cf408bacaf2dc2cd7e2561c03cd4a893f5a9e53cf70a5e047170e031d7",
+  "status": "awaiting_website_validation",
+  "integration": "Verbatim original ND GPU kernel and called block indexer with copyright; unused panel kernel and host demo omitted; unchanged static host factory.",
+  "extraction": {
+    "first_line": 37,
+    "last_line": 151,
+    "functions": [
+      "_block_indexer",
+      "_grouped_matmul_nd_kernel"
+    ],
+    "verbatim_sha256": "c293547f6a7367266eec2d6b678c828e39d2034a70e91085bb825e19e63ed415",
+    "gpu_ast_sha256": "c409be0ebb787aa2cddf594472a1ceea371a9ba9a2124c49b73292705a9ccf27",
+    "extracted_file_sha256": "2ecd65b753ecc6130e94e437a71eb0c678b2fb32d579e6b939acc43009ea07e0"
+  },
+  "license_path": "LICENSE",
+  "license_sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+}
