@@ -1,0 +1,33 @@
+{
+  "repository": "https://gitcode.com/Ascend/triton-ascend-kernels",
+  "revision": "4cbe4de3a5b97395b7d8ded1bedce087b4ceed78",
+  "path": "src/triton_ascend_kernels/norm/rms_norm.py",
+  "committed_at": "2026-01-23T11:09:57+08:00",
+  "source_sha256": "c50b342f6d45522091aadd5163908454195b13c60cd5ccc743eba7add116cddd",
+  "extraction": {
+    "first_line": 39,
+    "last_line": 103,
+    "function": "_rms_norm_forward_kernel",
+    "verbatim_sha256": "419d3c27161a68f24efbb89bb6c8e395c90b781ac21843848264dd786267147d",
+    "global_lines": [
+      [
+        14,
+        14
+      ],
+      [
+        15,
+        15
+      ],
+      [
+        16,
+        16
+      ]
+    ],
+    "globals_sha256": "d36450ece38d837951ff703e6780654aed8d1a26b1c3546d0d4c621358b35e5b",
+    "extracted_file_sha256": "444653db70c98dc01d436e4495940cf7a58db408ffa5dd038d809507799f36d1"
+  },
+  "license_path": "LICENSE",
+  "license_sha256": "e3e715e6d251c826acf0fbbce5971bc71f3616ab99f7a1c290ce10964bfed86e",
+  "integration": "Verbatim original forward GPU function and casting constants, copyright; unused backward kernels and host autograd omitted. Standard RMSNorm offset0 with original FP32 Gemma casting mode.",
+  "status": "awaiting_native_qualification"
+}
