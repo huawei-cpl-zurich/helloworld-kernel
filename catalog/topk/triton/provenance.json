@@ -1,0 +1,50 @@
+{
+  "repository": "https://github.com/flagos-ai/FlagGems",
+  "revision": "3e476453488e3eeb56704909fa7ec0b3d7cfe36b",
+  "path": "src/flag_gems/ops/topk.py",
+  "committed_at": "2024-11-05T15:24:49+08:00",
+  "source_sha256": "6107d5f2f150617a7b94e412137af46cb1b4e2513bdb25b2703fddf59e7ea21c",
+  "kernel_ast_sha256": "3cb3dc1bf63cd47b49034d82757056434a5770fbd96d4e2688280fdf45ee6071",
+  "dependencies": {},
+  "status": "awaiting_native_qualification",
+  "integration": "Original stage1 GPU kernel, called original finfo helper and its exact float constants retained; single full-row chunk completes top-k for the frozen domain. Unused multichunk merge and host launcher omitted.",
+  "extraction": {
+    "first_line": 22,
+    "last_line": 92,
+    "functions": [
+      "_get_finfo_val",
+      "topk_stage1_kernel"
+    ],
+    "verbatim_sha256": "f806e4ec1efec8c5066d2c30d59be12b5427c488be3e2736e5c1937d9a3c8396",
+    "global_lines": [
+      [
+        12,
+        12
+      ],
+      [
+        13,
+        13
+      ],
+      [
+        14,
+        14
+      ],
+      [
+        15,
+        15
+      ],
+      [
+        16,
+        16
+      ],
+      [
+        17,
+        17
+      ]
+    ],
+    "globals_sha256": "481dc0ecc44029c5a9f3db8bb56f2387183909b0c7837188953e286d8d1096c0",
+    "extracted_file_sha256": "8b5a4075f7797e9faf7f0741fa3029674f638a595d2ac7596aa7d9160b9833ab"
+  },
+  "license_path": "LICENSE",
+  "license_sha256": "3d96ddb29c3f72e59a4d50d17455e8d2989d603587bbbc88ec069641551b302a"
+}
