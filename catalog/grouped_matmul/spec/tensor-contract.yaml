@@ -1,0 +1,20 @@
+cases:
+  m256_k128_n128_g2:
+    aliases: {}
+    outputs:
+      out:
+        dtype: float16
+        shape:
+        - 256
+        - 128
+    scalars: {}
+  m512_k256_n256_g4:
+    aliases: {}
+    outputs:
+      out:
+        dtype: float16
+        shape:
+        - 512
+        - 256
+    scalars: {}
+schema_version: 2

@@ -1,0 +1,20 @@
+{
+  "repository": "https://github.com/flagos-ai/FlagGems",
+  "revision": "dcd639ae7ae358e6091268b43dcec43585252a6f",
+  "path": "src/flag_gems/ops/bmm_w8a8.py",
+  "committed_at": "2026-11-04T11:16:46+08:00",
+  "source_sha256": "a03482c46f4b25bf3007cbb88ac1eab746b86b11ad7775b89801cea3a77e81ee",
+  "gpu_ast_sha256": "eb32d2814b3bb0d5a291a9aff921bd724cd377b15ee706ffbf5a1e37fda5aaf8",
+  "status": "cpu_compiled_full_source_awaiting_website_validation",
+  "integration": "Verbatim original channel-scaled INT8 GPU function and copyright; unused host input validator/BMM launcher omitted. Original BMM specialized to one batch by unchanged host factory; no tensor transformation.",
+  "extraction": {
+    "first_line": 12,
+    "last_line": 68,
+    "function": "channel_kernel",
+    "verbatim_sha256": "d153c03c1cd36d3e4e52207e6c54aecbcd1ba2e40c6f57a78fca4059e7cc7c84",
+    "gpu_ast_sha256": "eb32d2814b3bb0d5a291a9aff921bd724cd377b15ee706ffbf5a1e37fda5aaf8",
+    "extracted_file_sha256": "c79dc0e4ee84d8ef70bf9c893556f8bbcfe8fcfe726865e1bdbc2f843049c5f4"
+  },
+  "license_path": "LICENSE",
+  "license_sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+}
