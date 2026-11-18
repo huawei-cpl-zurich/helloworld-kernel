@@ -1,30 +1,30 @@
 {
   "repository": "https://github.com/flagos-ai/FlagGems",
-  "revision": "55c7b94a5e9ff6565ea0f6cc831c8339f42f2ae5",
+  "revision": "9c446fa0fa449fa4d2ce929f13f3a29beb948816",
   "path": "src/flag_gems/runtime/backend/_ascend/ops/bmm.py",
-  "committed_at": "2025-11-06T14:59:49+08:00",
-  "source_sha256": "48b2ee0f485b29a9e91baa4697843e24c2cacce5d416ad2e5fda7b22970af705",
-  "kernel_ast_sha256": "0a61ff7e7a8102518ea1fec23363b7174e22e4257b76e321b646785d9470fdb2",
+  "committed_at": "2026-07-01T07:36:18+08:00",
+  "source_sha256": "003d7effdfdf9049b8f585428d6aa23957963760fdd3c2b97d91006a487d83c5",
+  "kernel_ast_sha256": "1b33f04c16d1e4c80ed108fe7a2d9f282df47882031e7342f93c91173250b343",
   "dependencies": {
     "src/flag_gems/utils/triton_lang_extension.py": "752d4e872d0b085f87263e459e8f97519ff8a15a2e101eefcbd89f0a88edafba"
   },
-  "status": "awaiting_native_qualification",
-  "integration": "Original forward GPU function and called original program-id helpers unchanged; unused kernels and host wrapper omitted. Host imports bind both ext/tle aliases; BMM constants match the original revision signature.",
+  "status": "awaiting_website_qualification",
+  "integration": "Original forward GPU body and called original helpers retained verbatim; static host bindings unchanged.",
   "extraction": {
-    "first_line": 16,
-    "last_line": 88,
+    "first_line": 17,
+    "last_line": 89,
+    "extracted_file_sha256": "3bb8acc5b16a81fa4635e6d321925c2d9530b6bdc9ed525525d088d7a7393cb1",
     "function": "bmm_kernel",
-    "verbatim_sha256": "ea8c339bac5cf865146540f44dff4c4c0d022bf86ddfcd233834372676dd7f17",
-    "extracted_file_sha256": "ea8c339bac5cf865146540f44dff4c4c0d022bf86ddfcd233834372676dd7f17"
+    "verbatim_sha256": "3bb8acc5b16a81fa4635e6d321925c2d9530b6bdc9ed525525d088d7a7393cb1"
   },
   "dependency_extractions": {
     "extension.py": {
-      "source_sha256": "752d4e872d0b085f87263e459e8f97519ff8a15a2e101eefcbd89f0a88edafba",
       "first_line": 20,
       "last_line": 31,
-      "extracted_file_sha256": "5b762cc746e0011def073dbc487ce2767779dbae9cd77ba62c4cd12f83f7d99d"
+      "extracted_file_sha256": "5b762cc746e0011def073dbc487ce2767779dbae9cd77ba62c4cd12f83f7d99d",
+      "source_sha256": "752d4e872d0b085f87263e459e8f97519ff8a15a2e101eefcbd89f0a88edafba"
     }
   },
   "license_path": "LICENSE",
-  "license_sha256": "3d96ddb29c3f72e59a4d50d17455e8d2989d603587bbbc88ec069641551b302a"
+  "license_sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
 }
