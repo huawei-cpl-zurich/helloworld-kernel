@@ -20,7 +20,12 @@ def definitions(filename,names,module_name):
     module.triton=triton;module.tl=tl;module.extension=extension;module.torch=torch
     module.ext=globals().get('ext');module.tle=globals().get('ext');sys.modules[module_name]=module
     constants=[node for node in ast.parse(path.read_bytes()).body if isinstance(node,ast.AnnAssign)]
-    exec(compile(ast.Module(body=constants+functions,type_ignores=[]),str(path),'exec'),module.__dict__)
+    exec(compile(ast.Module(body=constants,type_ignores=[]),str(path),'exec'),module.__dict__)
+    # Triton 3.6 requires constexpr values, not only constexpr annotations.
+    for node in constants:
+        name=node.target.id
+        module.__dict__[name]=tl.constexpr(module.__dict__[name])
+    exec(compile(ast.Module(body=functions,type_ignores=[]),str(path),'exec'),module.__dict__)
     return module
 module=definitions('kernel.py',['_get_finfo_val', 'topk_stage1_kernel'],'upstream_flaggems_topk')
 

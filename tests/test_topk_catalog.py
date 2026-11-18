@@ -30,3 +30,27 @@ class TopkCatalog(unittest.TestCase):
             self.assertTrue(torch.equal(out['values'], torch.tensor([values])))
             self.assertTrue(torch.equal(out['indices'], torch.tensor([indices])))
         self.assertTrue(torch.equal(x, torch.tensor([[4., 1., 3., 2.]])))
+
+    def test_host_loader_materializes_upstream_constant_values(self):
+        import sys
+        import types
+        tree = ast.parse((ROOT / 'triton/factory.py').read_text())
+        definition = next(n for n in tree.body if isinstance(n, ast.FunctionDef)
+                          and n.name == 'definitions')
+        class Constant:
+            def __init__(self, value):
+                self.value = value
+        language = types.SimpleNamespace(constexpr=Constant)
+        scope = dict(ast=ast, sys=sys, types=types, root=ROOT / 'triton',
+                     triton=types.SimpleNamespace(jit=lambda f: f), tl=language,
+                     extension=None, torch=torch)
+        exec(compile(ast.Module(body=[definition], type_ignores=[]), '<host-loader>', 'exec'), scope)
+        module = scope['definitions']('kernel.py', ['_get_finfo_val', 'topk_stage1_kernel'],
+                                      'test_original_topk')
+        try:
+            self.assertIsInstance(module._MIN_FLOAT32_VAL, Constant)
+            self.assertEqual(module._MIN_FLOAT32_VAL.value, torch.finfo(torch.float32).min)
+            self.assertIsInstance(module._MAX_FLOAT16_VAL, Constant)
+            self.assertEqual(module._MAX_FLOAT16_VAL.value, torch.finfo(torch.float16).max)
+        finally:
+            sys.modules.pop('test_original_topk', None)
