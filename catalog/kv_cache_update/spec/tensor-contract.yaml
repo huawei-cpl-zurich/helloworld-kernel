@@ -1,0 +1,38 @@
+cases:
+  invalid_slots:
+    aliases:
+      updated: cache
+    outputs:
+      updated:
+        dtype: bfloat16
+        shape:
+        - 2
+        - 2
+        - 16
+        - 128
+    scalars: {}
+  tokens16:
+    aliases:
+      updated: cache
+    outputs:
+      updated:
+        dtype: bfloat16
+        shape:
+        - 32
+        - 2
+        - 8
+        - 128
+    scalars: {}
+  tokens33:
+    aliases:
+      updated: cache
+    outputs:
+      updated:
+        dtype: bfloat16
+        shape:
+        - 64
+        - 2
+        - 16
+        - 128
+    scalars: {}
+schema_version: 2
