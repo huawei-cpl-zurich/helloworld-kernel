@@ -7,7 +7,7 @@ def embedding_kernel(
     N: tl.constexpr,  # number of columns in X
     BLOCK_SIZE: tl.constexpr,
 ):
-    pid = tle.program_id(0)
+    pid = ext.program_id(0)
     out_ptr += pid * N
     in_ptr += pid
 
