@@ -1,5 +1,4 @@
 # SPDX-License-Identifier: Apache-2.0
-"""KDA state-copy kernel and metadata validation for worker-owned plans.
 @triton.jit
 def _kda_state_copy_kernel(
     cache_ptr,

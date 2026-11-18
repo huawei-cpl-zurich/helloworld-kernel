@@ -9,7 +9,7 @@
     "first_line": 67,
     "last_line": 119,
     "verbatim_sha256": "99e9b6e727390e201407a9fd13e7e4df05027d457191387b1aeb21bab21c3eb2",
-    "extracted_file_sha256": "01e145917aba1fd94a9fcfadc51f2bacdb9e16c50326c9b13f9d973ba882cd3e"
+    "extracted_file_sha256": "4d99d54d31fbebcb37486c111659983bb8a97487ff72b5006c945e564b8aeff2"
   },
   "license_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
   "selection": "Three file revisions have identical original GPU ASTs; retain the latest only.",
