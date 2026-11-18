@@ -1,0 +1,39 @@
+{
+  "repository": "https://github.com/flagos-ai/FlagGems",
+  "revision": "7b16ab717bac3622a007d06542cb18626b7cc101",
+  "path": "src/flag_gems/ops/rms_norm.py",
+  "committed_at": "2025-07-07T11:18:07+08:00",
+  "source_sha256": "371757ec5b7dfb3bb51931004524ded5e03317e781f92443ce5ad55fa4042370",
+  "gpu_ast_sha256": "346db4dbdbdb2d4b79ab11d25405f4695a4fe7bb63228190f2a3c10aa2bb63c2",
+  "parameters": [
+    "Y",
+    "INV_RMS",
+    "X",
+    "W",
+    "y_stride_r",
+    "y_stride_c",
+    "x_stride_r",
+    "x_stride_c",
+    "N",
+    "eps",
+    "BLOCK_SIZE"
+  ],
+  "extraction": {
+    "first_line": 15,
+    "last_line": 44,
+    "verbatim_sha256": "7d3cf6c195e855c087ca24ab0ee2f427cf24330833a8d312c5cbb29284ca0bcb",
+    "extracted_file_sha256": "7d3cf6c195e855c087ca24ab0ee2f427cf24330833a8d312c5cbb29284ca0bcb"
+  },
+  "license_sha256": "3d96ddb29c3f72e59a4d50d17455e8d2989d603587bbbc88ec069641551b302a",
+  "dependencies": {
+    "src/flag_gems/utils/triton_lang_extension.py": "3be80bdf1783d5cc3d3ee34ec16fbc476d32ba2f6bdd28ed9f0ad4cb5b77dff5"
+  },
+  "dependency_extractions": {
+    "extension.py": {
+      "first_line": 20,
+      "last_line": 31,
+      "extracted_file_sha256": "5b762cc746e0011def073dbc487ce2767779dbae9cd77ba62c4cd12f83f7d99d"
+    }
+  },
+  "integration": "Original RMSNorm forward and program-id helpers unchanged; static contiguous FP16 bindings also retain original inverse-RMS output."
+}
