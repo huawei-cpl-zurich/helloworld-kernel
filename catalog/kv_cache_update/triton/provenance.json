@@ -1,0 +1,17 @@
+{
+  "repository": "https://github.com/vllm-project/vllm-ascend",
+  "revision": "852f0d0fc9e6472acf711f0be9b58cf4c69d96ab",
+  "path": "vllm_ascend/ops/triton/kda_state_copy_kernel.py",
+  "committed_at": "2026-11-06T14:58:42+08:00",
+  "source_sha256": "cce0d54d5918ec6ccf32bebc26ec349d1992f3ddb75c445852b26a1c89f870ff",
+  "gpu_ast_sha256": "0403025ca36c9f6546aaab50d433c6caecd2ab1d114d26dd62a01535efd6927b",
+  "extraction": {
+    "first_line": 67,
+    "last_line": 119,
+    "verbatim_sha256": "99e9b6e727390e201407a9fd13e7e4df05027d457191387b1aeb21bab21c3eb2",
+    "extracted_file_sha256": "01e145917aba1fd94a9fcfadc51f2bacdb9e16c50326c9b13f9d973ba882cd3e"
+  },
+  "license_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+  "selection": "Three file revisions have identical original GPU ASTs; retain the latest only.",
+  "integration": "Original dense row-scatter kernel; fused K/V payload occupies the original 4D row layout, BF16, TO_CACHE=True, HAS_FLAGS=False. GPU body unchanged."
+}
