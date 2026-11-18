@@ -13,7 +13,7 @@ cases:
     slots:
       distribution: sequence
       dtype: int32
-      high: 31
+      high: 15
       low: 0
       seed: 43
       shape:
@@ -41,7 +41,7 @@ cases:
     slots:
       distribution: sequence
       dtype: int32
-      high: 63
+      high: 32
       low: 0
       seed: 43
       shape:
