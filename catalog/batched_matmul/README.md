@@ -6,5 +6,8 @@ revision. Both declared cases use full tiles; matrix values accumulate in FP32
 and return FP16.
 
 Source/helper fragments and license are hash-pinned. Portable seeded v1 inputs
-cache CPU outputs once. Native compilation and A5 qualification are pending.
-Import selected revisions oldest to newest.
+cache CPU outputs once. All five imported revisions passed native compilation,
+correctness, and benchmarking on A5, and are published in Cannery.
+
+Include the [FlagGems attribution](triton/NOTICE) and [license](triton/LICENSE)
+when redistributing the historical extracts listed in the attribution file.
