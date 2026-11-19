@@ -27,3 +27,17 @@ class FlashAttentionCatalog(unittest.TestCase):
         self.assertTrue(torch.allclose(out['lse'], torch.tensor([[[0., math.log(2.)]]])))
         meta = torch.empty((1, 1, 2, 2), dtype=q.dtype, device='meta')
         self.assertTrue(all(t.device.type == 'meta' for t in module.reference(meta, meta, meta, 0.125).values()))
+
+    def test_scaled_nonzero_attention_and_lse(self):
+        spec = importlib.util.spec_from_file_location("flash_reference", ROOT / "spec/reference.py")
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        q = torch.tensor([[[[2, 0], [2, 0]]]], dtype=torch.float16)
+        k = torch.tensor([[[[0, 0], [2, 0]]]], dtype=q.dtype)
+        v = torch.tensor([[[[0, 1], [4, 3]]]], dtype=q.dtype)
+        result = module.reference(q, k, v, 0.25)
+        weight = math.e / (1 + math.e)
+        expected = torch.tensor([[[[0, 1], [4 * weight, 1 + 2 * weight]]]], dtype=q.dtype)
+        self.assertTrue(torch.equal(result["out"], expected))
+        lse = torch.tensor([[[0.0, math.log1p(math.e)]]])
+        self.assertTrue(torch.allclose(result["lse"], lse))
