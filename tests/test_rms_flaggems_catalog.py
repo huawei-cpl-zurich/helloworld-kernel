@@ -8,6 +8,9 @@ import sys
 from types import ModuleType
 import unittest
 from unittest.mock import patch
+
+from rms_norm_cases import signatures
+
 ROOT = Path(__file__).resolve().parents[1] / 'catalog/rms_norm/triton-flaggems'
 
 
@@ -35,11 +38,11 @@ class RmsFlaggemsCatalog(unittest.TestCase):
         factory = importlib.util.module_from_spec(spec)
         with patch.dict(sys.modules, {'triton': triton, 'triton.language': language}):
             spec.loader.exec_module(factory)
-            for columns in (128, 512):
-                result = factory.build({
-                    'inputs': [{'shape': [32, columns]}, {'shape': [columns]}],
-                    'scalars': [{'name': 'epsilon', 'value': 1e-5}],
-                })
+            for variant in signatures():
+                inputs = {tensor['name']: tensor for tensor in variant['inputs']}
+                rows, columns = inputs['x']['shape']
+                epsilon = next(scalar['value'] for scalar in variant['scalars'] if scalar['name'] == 'epsilon')
+                result = factory.build(variant)
                 self.assertIs(result['kernel'].__globals__['tl'], language)
                 self.assertEqual(result['bindings'], [
                     ['out_ptr', 'output', 'y'], ['INV_RMS', 'output', 'rstd'],
@@ -47,8 +50,10 @@ class RmsFlaggemsCatalog(unittest.TestCase):
                 ])
                 self.assertEqual(result['constants'], {
                     'y_stride_r': columns, 'y_stride_c': 1, 'x_stride_r': columns,
-                    'x_stride_c': 1, 'N': columns, 'eps': 1e-5, 'BLOCK_SIZE': 4096,
+                    'x_stride_c': 1, 'N': columns, 'eps': epsilon, 'BLOCK_SIZE': 4096,
                 })
-                self.assertEqual(result['grid'], [32, 1, 1])
+                bound = {binding[0] for binding in result['bindings']} | result['constants'].keys()
+                self.assertEqual(set(inspect.signature(result['kernel']).parameters), bound)
+                self.assertEqual(result['grid'], [rows, 1, 1])
             with self.assertRaisesRegex(ValueError, 'at most 4096'):
                 factory.build({'inputs': [{'shape': [32, 4097]}, {'shape': [4097]}]})
