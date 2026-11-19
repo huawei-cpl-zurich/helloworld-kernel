@@ -129,6 +129,7 @@ From this repository with Python 3.12 and a C++17 compiler:
 python -m venv .venv
 . .venv/bin/activate
 python -m pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cpu
+python -m pip install PyYAML==6.0.2
 python -m unittest discover -s tests -v
 ```
 
