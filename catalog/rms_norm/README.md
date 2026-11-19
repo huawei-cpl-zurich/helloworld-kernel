@@ -17,6 +17,6 @@ and reached a geometric-mean speedup of 1.011×.
 
 | Upstream revision | Submitted source | Cannery result |
 | --- | --- | --- |
-| `7b16d95` | `b8797f6` | Correctness passed, reference timing failed |
+| `7b16ab7` | `b8797f6` | Correctness passed, reference timing failed |
 | `b684fbc` | `0f32cc1` | A5 runtime initialization failed before the kernel ran |
 | `956970c` | `6713411` | Published as `98e96988-ccde-453b-bcef-df0e37e8299f` |
