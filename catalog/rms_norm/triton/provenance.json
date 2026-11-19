@@ -29,5 +29,10 @@
   "license_path": "LICENSE",
   "license_sha256": "e3e715e6d251c826acf0fbbce5971bc71f3616ab99f7a1c290ce10964bfed86e",
   "integration": "Verbatim original forward GPU function and casting constants, copyright; unused backward kernels and host autograd omitted. Standard RMSNorm offset0 with original FP32 Gemma casting mode.",
-  "status": "awaiting_native_qualification"
+  "status": "a5_correctness_passed_benchmark_deadline_exceeded",
+  "additional_license": {
+    "path": "LICENSE.liger",
+    "source": "https://github.com/linkedin/Liger-Kernel/blob/v0.5.8/LICENSE",
+    "sha256": "3a1ccb0c7274b68e1af2ca1d54b10b662085ca56753400182ecf87ae33f2d1a8"
+  }
 }
