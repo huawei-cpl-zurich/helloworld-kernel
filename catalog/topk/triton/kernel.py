@@ -56,23 +56,28 @@ def topk_stage1_kernel(
     cols = tl.arange(0, CHUNK_SIZE)
     mask = (chunk_offset + cols) < N
 
-    mask_val = float("-inf") if DESCENDING else float("inf")
+    mask_val = _get_finfo_val(x_ptr.dtype.element_ty, return_max=not DESCENDING)
     x_val = tl.load(x_ptr + cols, mask=mask, other=mask_val).to(tl.float32)
-    available = mask
-
     for k_idx in range(k):
         if DESCENDING:
             chunk_select_val = tl.max(x_val)
+            chunk_select_idx = tl.argmax(x_val, axis=0)
         else:
             chunk_select_val = tl.min(x_val)
-        is_candidate = available & (x_val == chunk_select_val)
-        candidate_indices = tl.where(is_candidate, cols, CHUNK_SIZE)
-        chunk_select_idx = tl.argmin(candidate_indices, axis=0)
+            chunk_select_idx = tl.argmin(x_val, axis=0)
 
         tl.store(y_ptr + k_idx, chunk_select_val)
         tl.store(index_ptr + k_idx, chunk_select_idx + chunk_offset)
+
         if DESCENDING:
-            x_val = tl.where(cols == chunk_select_idx, float("-inf"), x_val)
+            x_val = tl.where(
+                cols == chunk_select_idx,
+                _get_finfo_val(tl.float32, return_max=False),
+                x_val,
+            )
         else:
-            x_val = tl.where(cols == chunk_select_idx, float("inf"), x_val)
-        available = available & (cols != chunk_select_idx)
+            x_val = tl.where(
+                cols == chunk_select_idx,
+                _get_finfo_val(tl.float32, return_max=True),
+                x_val,
+            )

@@ -1,26 +1,26 @@
 {
   "repository": "https://github.com/flagos-ai/FlagGems",
-  "revision": "62e172edf003a9d0cfbe4d4f583d874307112014",
+  "revision": "98bd8c1ce8f6f0e885b1e4b25577669f86afad4c",
   "path": "src/flag_gems/ops/topk.py",
-  "committed_at": "2026-07-27T14:42:05+08:00",
-  "source_sha256": "e6d433c2ab1fd63da45ac2d93d3ebed902453637f6a25aaf983b616b17ed7a65",
-  "kernel_ast_sha256": "455c167635bb1b366c6f075f157a2ecaf0df31ebc9d71cd4ab5d6bdf5dce3707",
+  "committed_at": "2026-04-10T18:45:18+08:00",
+  "source_sha256": "49f4a1cf9324bef32b47498d049a94d9f7ed74de617c7c233fd0c34e655529be",
+  "kernel_ast_sha256": "a5347048226a6082b9a39c3fc0dbccda8a45fd5dee2454132119d344c5db7323",
   "dependencies": {
-    "src/flag_gems/utils/triton_lang_extension.py": "2dec17517da4299badbcc7301115efe9bf6a7006d9c9c76b3878b790f02f7df5"
+    "src/flag_gems/utils/triton_lang_extension.py": "752d4e872d0b085f87263e459e8f97519ff8a15a2e101eefcbd89f0a88edafba"
   },
   "status": "staged_not_validated",
-  "integration": "Original float constants, TopK stage kernel, and program_id helper. Factory filters host decorators and loads the helper in an isolated module.",
+  "integration": "Original float constants, TopK stage kernel, and program_id and num_programs helpers. Factory filters host decorators and loads the helper in an isolated module.",
   "extraction": {
     "functions": [
       "_get_finfo_val",
       "topk_stage1_kernel"
     ],
-    "extracted_file_sha256": "0d4c5f397addef7f05e6b9dea333f7be7db6598dfedabbbb853b007bc242932e"
+    "extracted_file_sha256": "af15a07d6ebcd65e02f29e9dc88ec93996c21cb45ddb62c0482428d5d6c18476"
   },
   "extension": {
     "path": "src/flag_gems/utils/triton_lang_extension.py",
-    "source_sha256": "2dec17517da4299badbcc7301115efe9bf6a7006d9c9c76b3878b790f02f7df5",
-    "extracted_file_sha256": "b599b45ee504e0c11ac0726857a1f0497f6141840d40b95f7fc3472f493fd299"
+    "source_sha256": "752d4e872d0b085f87263e459e8f97519ff8a15a2e101eefcbd89f0a88edafba",
+    "extracted_file_sha256": "c043e2a87a0b26ac4f6fb9e8fe8f88b9d08fd2bfba4f86cc34045e03d60e70d6"
   },
   "license_sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
 }

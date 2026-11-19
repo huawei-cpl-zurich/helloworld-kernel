@@ -28,7 +28,7 @@ def definitions(filename,names,module_name):
             module.__dict__[name]=tl.constexpr(module.__dict__[name])
     exec(compile(ast.Module(body=functions,type_ignores=[]),str(path),'exec'),module.__dict__)
     return module
-ext=definitions('extension.py',['program_id'],'upstream_flaggems_topk_extension')
+ext=definitions('extension.py',['program_id','num_programs'],'upstream_flaggems_topk_extension')
 module=definitions('kernel.py',['_get_finfo_val', 'topk_stage1_kernel'],'upstream_flaggems_topk')
 
 def build(signature):
