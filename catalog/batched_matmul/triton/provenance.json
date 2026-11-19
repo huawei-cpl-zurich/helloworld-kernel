@@ -1,21 +1,21 @@
 {
   "repository": "https://github.com/flagos-ai/FlagGems",
-  "revision": "37941accd18fb398dee502dd0ebfe119ef933f6b",
+  "revision": "8a73cde559d229c19939857db1c6267b7da68bbd",
   "path": "src/flag_gems/runtime/backend/_ascend/ops/bmm.py",
-  "committed_at": "2026-09-29T22:24:20+08:00",
-  "source_sha256": "896b5fda23c27d3b637fd6e54b81152c794d62738a0aa05e263346f1d31b1013",
-  "kernel_ast_sha256": "6f8f818095b7e34c4a92f16591338375bef567dddf032bb85c626a4150323f9d",
+  "committed_at": "2026-10-12T18:27:24+08:00",
+  "source_sha256": "2c3503150c94763f97b6ed9c3415e4151b3469de35511742722b59904082f501",
+  "kernel_ast_sha256": "18ee6519a522e54fa3485f83e09942a328cd3e06f85d8d0eb0579e1ae3393840",
   "dependencies": {
     "src/flag_gems/utils/triton_lang_extension.py": "2dec17517da4299badbcc7301115efe9bf6a7006d9c9c76b3878b790f02f7df5"
   },
   "status": "staged_not_validated",
   "integration": "Original forward GPU body and called original helpers retained verbatim; static host bindings unchanged.",
   "extraction": {
-    "first_line": 70,
-    "last_line": 168,
+    "first_line": 106,
+    "last_line": 205,
     "function": "bmm_kernel",
-    "extracted_file_sha256": "77975b6521f85fe99125ade5647dd94fe8edc0b3f7575db0fb3e733448396db3",
-    "verbatim_sha256": "77975b6521f85fe99125ade5647dd94fe8edc0b3f7575db0fb3e733448396db3"
+    "extracted_file_sha256": "25acdc0e6252453b93212afef22ec8dc6b4e56dc4cda77369047fb192ffed9aa",
+    "verbatim_sha256": "25acdc0e6252453b93212afef22ec8dc6b4e56dc4cda77369047fb192ffed9aa"
   },
   "dependency_extractions": {
     "extension.py": {

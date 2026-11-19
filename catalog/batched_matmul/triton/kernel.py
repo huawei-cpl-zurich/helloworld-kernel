@@ -6,6 +6,7 @@ def bmm_kernel(
     M,
     N,
     K,
+    BATCH: tl.constexpr,
     TILE_M: tl.constexpr,
     TILE_N: tl.constexpr,
     TILE_K: tl.constexpr,
