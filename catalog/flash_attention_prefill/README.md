@@ -11,7 +11,9 @@ Provenance records the status at source import.
 
 The provenance AST digest uses Python 3.13, the two forward function nodes in
 upstream source order, and their UTF-8 `ast.dump` strings joined by a newline
-with location attributes omitted. The historical v1 provenance also records
+with location attributes omitted. The extraction function list names the
+selected functions. Derive their order from the pinned source. The historical
+v1 provenance also records
 the UTF-8 digest of an `ast.Module` dump with those nodes and an empty
 `type_ignores` list.
 
