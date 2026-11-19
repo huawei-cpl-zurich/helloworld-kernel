@@ -12,3 +12,7 @@ compilation, correctness, and benchmarking with both original indexing
 helpers bundled, and are published in Cannery. Provenance records import-time
 status. Use the LICENSE from each snapshot and include the
 [FlagGems attribution](triton/NOTICE) with the `62e172e` extract.
+
+The notice also applies to the immutable Cannery source snapshot at
+`2543b37bba578c3cc119d53714daefa59ba915c6`. Use the notice in this catalog
+alongside the LICENSE bundled with that snapshot.
