@@ -1,0 +1,6 @@
+FlagGems
+Copyright 2026 FlagOS Contributors
+
+The GPU kernel and Triton helper are sourced from FlagGems and distributed under
+the accompanying Apache License 2.0. See provenance.json for the upstream paths
+and revision.
