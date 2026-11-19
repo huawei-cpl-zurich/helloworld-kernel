@@ -1,22 +1,21 @@
 {
   "repository": "https://github.com/triton-lang/triton-ascend",
-  "revision": "2b392dddcd51765a58a155e9efc39b6f64d15764",
+  "revision": "a6ee6dbd09f58cf9589f87b9d4d4f0e2cbfc41e9",
   "path": "third_party/ascend/tutorials/06-fused-attention.py",
-  "committed_at": "2026-05-21T10:42:48+08:00",
-  "source_sha256": "d10d3ba0c0c3d3242575ffc2eac8562deb956219cc54046c76e8829ab6f11923",
-  "gpu_ast_sha256": "3de401ee28422ae8b99d2edf92854781798445c3504501d7ed4086f66faee164",
+  "committed_at": "2026-06-18T16:28:46+08:00",
+  "source_sha256": "c55b3bd72acbfb0d83b603c3a3eae1947177362d169f98173417cb1ecb028cc4",
+  "gpu_ast_sha256": "e2bd9a461f234a7c091866e1e74ccf8d6e9931c934854e11a61dfd41ccfff815",
   "status": "staged_not_validated",
-  "integration": "Verbatim original forward GPU functions, embedded MIT notice and paper/team credits; unused host autograd/demo omitted; host factory unchanged.",
+  "integration": "Verbatim forward kernels with upstream MIT notice and credits; v2 host factory unchanged.",
   "extraction": {
     "first_line": 44,
     "last_line": 250,
     "functions": [
-      "_attn_fwd_inner",
-      "_attn_fwd"
+      "_attn_fwd",
+      "_attn_fwd_inner"
     ],
-    "verbatim_sha256": "650bd3604f8e219af7c9d64a18782bef385c9015b921834a4682191f99a79efd",
-    "gpu_ast_sha256": "8facf0a953bd6738a0956972fc9b4a0c3315e14a4ceb5abee5aeefcd8dd00453",
-    "extracted_file_sha256": "fc2a9a547d74a4936ea172020c3cf4c7c211a652e6f3cecef44bdcd4e87a89e0"
+    "verbatim_sha256": "dd396156df030b07fded5c139f74cc686e5e31a632a2d6958de55a4becfca35b",
+    "extracted_file_sha256": "304acbbf65ad9a1d1cde6675443a1d36fb94fb5a215f9bb824134e48c5547f19"
   },
   "license_path": "LICENSE",
   "license_sha256": "4c4e9e91d43be2b3ec01b4dc4d7b810aa43c7bca960e555f817b054ddd283ada"
