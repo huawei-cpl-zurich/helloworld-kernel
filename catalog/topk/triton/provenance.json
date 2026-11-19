@@ -1,10 +1,10 @@
 {
   "repository": "https://github.com/flagos-ai/FlagGems",
-  "revision": "98bd8c1ce8f6f0e885b1e4b25577669f86afad4c",
+  "revision": "dcb76e299dc9df851e2329e6bac889e365af145b",
   "path": "src/flag_gems/ops/topk.py",
-  "committed_at": "2026-04-10T18:45:18+08:00",
-  "source_sha256": "49f4a1cf9324bef32b47498d049a94d9f7ed74de617c7c233fd0c34e655529be",
-  "kernel_ast_sha256": "a5347048226a6082b9a39c3fc0dbccda8a45fd5dee2454132119d344c5db7323",
+  "committed_at": "2026-05-11T16:44:43+08:00",
+  "source_sha256": "9e70a17b9f4193253584ced391ae6bbe79d39e32ed9cb7d2baff31c5d7452684",
+  "kernel_ast_sha256": "82d7ca9318f22d6c1c1e6bf96bcf4208893beb54916df75fb69029860a335997",
   "dependencies": {
     "src/flag_gems/utils/triton_lang_extension.py": "752d4e872d0b085f87263e459e8f97519ff8a15a2e101eefcbd89f0a88edafba"
   },
@@ -15,7 +15,7 @@
       "_get_finfo_val",
       "topk_stage1_kernel"
     ],
-    "extracted_file_sha256": "af15a07d6ebcd65e02f29e9dc88ec93996c21cb45ddb62c0482428d5d6c18476"
+    "extracted_file_sha256": "f3e38c8ce31b69fde99d735724ce25b6c2c8acda3754cda5407ca32641594bc9"
   },
   "extension": {
     "path": "src/flag_gems/utils/triton_lang_extension.py",
