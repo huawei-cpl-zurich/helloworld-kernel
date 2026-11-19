@@ -1,12 +1,12 @@
 {
   "repository": "https://github.com/flagos-ai/FlagGems",
-  "revision": "002435e023bd0a88d10ed0a5d4152bce00b2cd95",
+  "revision": "956970cace183a275c92c8f307b884514a2211f5",
   "path": "src/flag_gems/fused/topk_softmax.py",
-  "committed_at": "2026-01-08T09:05:23+08:00",
-  "source_sha256": "6d1d4b22ff9989b8637963099e7362cb6259083b50405018926d08048bc9a394",
-  "kernel_ast_sha256": "2621a779c479bdb97f3fb7fee35f8b79451817fae30346892d42213dfbd19a04",
+  "committed_at": "2026-10-08T14:23:08+08:00",
+  "source_sha256": "d8a68b64f49e2d2e44203909fe8dd8c090e66f57fac494ea834ab59c39cb17a9",
+  "kernel_ast_sha256": "a859fa9b3323187110ce136aa61182ab08c3f8ff3fe04bad99ce894244551e55",
   "dependencies": {},
-  "status": "awaiting_native_qualification",
+  "status": "staged_not_validated",
   "integration": "host decorators unwrapped for direct ASTSource compilation; original JIT bodies unchanged",
   "license_path": "LICENSE",
   "license_sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
