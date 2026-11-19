@@ -3,7 +3,6 @@
   "revision": "90f807a321f419e8c619facd411f9f9bf94cc792",
   "path": "src/liger_kernel/ops/swiglu.py",
   "source_sha256": "7397029e8fefac0de42e5eeafcbbac147644a91c357bd30b9ba019fa5df3ce0a",
-  "gpu_ast_sha256": "8296602058c53267e1c1fbda2e87749576b8b65cd3027441fd65bece9a2fd1c7",
   "upstream_date": "2026-08-31T22:37:35Z",
   "license_sha256": "3a1ccb0c7274b68e1af2ca1d54b10b662085ca56753400182ecf87ae33f2d1a8",
   "extraction": {

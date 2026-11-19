@@ -41,3 +41,6 @@ class LigerSourceCatalog(unittest.TestCase):
                 self.assertEqual(result['grid'], [rows, 1, 1])
                 self.assertEqual(list(inspect.signature(result['kernel']).parameters),
                                  ['a_ptr', 'b_ptr', 'c_ptr', 'stride', 'n_cols', 'BLOCK_SIZE'])
+            oversized = {'shape': [32, 4097]}
+            with self.assertRaisesRegex(ValueError, 'at most 4096'):
+                factory.build({'inputs': [oversized, oversized], 'outputs': [oversized], 'scalars': []})

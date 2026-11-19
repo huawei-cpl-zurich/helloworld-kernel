@@ -15,6 +15,8 @@ original=load('kernel.py',{'silu','_swiglu_forward_kernel'},'original_liger_swig
 entry=load('entrypoint.py',{'static_gate_one'},'liger_static_swiglu',original=original)
 def build(signature):
     a,b=signature['inputs'];out,=signature['outputs'];rows,cols=a['shape']
+    if cols > 4096:
+        raise ValueError('Liger SwiGLU supports at most 4096 columns per row')
     assert b['shape']==out['shape']==a['shape'] and not signature['scalars']
     return {'kernel':entry.static_gate_one,
       'bindings':[['a_ptr','input','a'],['b_ptr','input','b'],['c_ptr','output','out']],
