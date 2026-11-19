@@ -1,10 +1,10 @@
 {
   "repository": "https://github.com/flagos-ai/FlagGems",
-  "revision": "b684fbc78add740db16dd414cad75dd2d2105ae3",
+  "revision": "956970cace183a275c92c8f307b884514a2211f5",
   "path": "src/flag_gems/ops/rms_norm.py",
-  "committed_at": "2026-07-18T21:35:28+08:00",
-  "source_sha256": "fdb006db45179289c017701bc3dfe58d0f96d1a4f4a0410d2fb0e7019ebb8d26",
-  "gpu_ast_sha256": "2dffb89ec90b422e99d9e9a8f9f3da1d8b5502fb644f0b03344774b4e0d8b925",
+  "committed_at": "2026-10-08T14:23:08+08:00",
+  "source_sha256": "e6d14cfae83837ab3fb5ad09824565791ff0eaea59b6b4f3d9378a0cfe987898",
+  "gpu_ast_sha256": "455e545443e9c2d9d50e4186791c24d6b8614f1b0c0c9b477471f1fd7709a6c1",
   "parameters": [
     "out_ptr",
     "INV_RMS",
@@ -19,10 +19,10 @@
     "BLOCK_SIZE"
   ],
   "extraction": {
-    "first_line": 35,
-    "last_line": 71,
-    "verbatim_sha256": "5f442905bf9e44c25af053b5a36a92cab5b659c76c94eb4012cc0143a0becb42",
-    "extracted_file_sha256": "26a23a8b25fdfee263f486fbe94ea49f7b63084b573d6c7ff9cd200b52acf66e"
+    "first_line": 34,
+    "last_line": 73,
+    "verbatim_sha256": "aba4c333187808c06f87434df4409c1158c73717942aeb0148f9b4d4f5f863dc",
+    "extracted_file_sha256": "a757e3e5d4dc2fec94e5edf9d536decc9b6a6bae8a935923476996976e7ced2b"
   },
   "license_sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
   "dependencies": {
