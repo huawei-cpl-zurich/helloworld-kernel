@@ -3,7 +3,9 @@ import ast
 import hashlib
 import importlib.util
 import json
+import math
 from pathlib import Path
+import sys
 import unittest
 import torch
 
@@ -16,7 +18,10 @@ class SoftmaxCatalog(unittest.TestCase):
         for name, pin in [('kernel.py', 'source_sha256'), ('LICENSE', 'license_sha256')]:
             self.assertEqual(hashlib.sha256((ROOT / 'triton' / name).read_bytes()).hexdigest(), provenance[pin])
         tree = ast.parse((ROOT / 'triton/kernel.py').read_bytes())
-        self.assertIn('softmax_kernel', [n.name for n in tree.body if isinstance(n, ast.FunctionDef)])
+        kernel = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == 'softmax_kernel')
+        if sys.version_info[:2] == (3, 13):
+            digest = hashlib.sha256(ast.dump(kernel, include_attributes=False).encode()).hexdigest()
+            self.assertEqual(digest, provenance['kernel_ast_sha256'])
 
     def test_stable_reference_and_input_preservation(self):
         spec = importlib.util.spec_from_file_location('softmax_reference', ROOT / 'spec/reference.py')
@@ -29,3 +34,12 @@ class SoftmaxCatalog(unittest.TestCase):
         self.assertTrue(torch.equal(x, saved))
         self.assertTrue(torch.allclose(out.float(), torch.full((2, 3), 1 / 3), atol=0.001))
         self.assertTrue(torch.isfinite(out).all())
+
+    def test_reference_preserves_nonuniform_rows(self):
+        spec = importlib.util.spec_from_file_location('softmax_reference', ROOT / 'spec/reference.py')
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        logits = torch.tensor([[0, 1, 2]], dtype=torch.float16)
+        normalizer = 1 + math.e + math.e**2
+        expected = torch.tensor([[1, math.e, math.e**2]], dtype=torch.float32) / normalizer
+        self.assertTrue(torch.allclose(module.reference(logits)['out'].float(), expected, atol=0.001))
