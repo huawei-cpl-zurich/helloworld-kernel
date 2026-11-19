@@ -13,7 +13,9 @@ texts are pinned in `triton/provenance.json`.
 
 The three distinct FlagGems forward revisions were submitted in source order
 under the same v1 spec. The latest passed correctness and benchmarking on A5
-and reached a geometric-mean speedup of 1.011×.
+and reached a geometric-mean speedup of 1.011× at submitted commit `6713411`.
+The merged catalog preserves that exact candidate bundle. The source-level
+factory test validates the frozen signatures on CPU.
 
 | Upstream revision | Submitted source | Cannery result |
 | --- | --- | --- |
