@@ -1,26 +1,26 @@
 {
   "repository": "https://github.com/flagos-ai/FlagGems",
-  "revision": "9c1b2bee76f94dc18d09ee0d4bc0e1fb64acca5c",
+  "revision": "c6ba637d14e4fba0faebbd2c792512f4a2f38a5c",
   "path": "src/flag_gems/ops/softmax.py",
-  "committed_at": "2024-11-27T14:12:58+08:00",
-  "source_sha256": "f6ca628e62f7df30f1f7ed0d259b06beac6b9d65d99a71c15f57b5826d7c48c4",
-  "gpu_ast_sha256": "aad1bc04191df65f71049001b0767ad8d11fcee5e9ce24b7958eabad65c12ab3",
+  "committed_at": "2026-05-10T07:33:22+08:00",
+  "source_sha256": "6b1815da231b062faed00c0dcba7dab9d48ffdd276b1e609255780be5a3b76ae",
+  "gpu_ast_sha256": "6ef5662cc8ae8f93e39c9ce461aa6bb164329e800347a529d682b0f631fadb63",
   "dependencies": {
-    "src/flag_gems/utils/triton_lang_extension.py": "f8ddb1cd7a3c741e4347175171fe33e49fef59685b4f560b0d98ec756e0d1866"
+    "src/flag_gems/utils/triton_lang_extension.py": "752d4e872d0b085f87263e459e8f97519ff8a15a2e101eefcbd89f0a88edafba"
   },
   "extraction": {
-    "first_line": 119,
-    "last_line": 216,
-    "verbatim_sha256": "58160552791ee66de07ba9733457f65b47fb635dea529addc01df7bfbcbe18c1",
-    "extracted_file_sha256": "58160552791ee66de07ba9733457f65b47fb635dea529addc01df7bfbcbe18c1"
+    "first_line": 82,
+    "last_line": 160,
+    "verbatim_sha256": "cf0af80cc02c3bfc48773af5f496f7d0daec290a4b16de7c9b657f1da133fe71",
+    "extracted_file_sha256": "cf0af80cc02c3bfc48773af5f496f7d0daec290a4b16de7c9b657f1da133fe71"
   },
   "dependency_extractions": {
     "extension.py": {
-      "first_line": 17,
-      "last_line": 28,
+      "first_line": 20,
+      "last_line": 31,
       "extracted_file_sha256": "5b762cc746e0011def073dbc487ce2767779dbae9cd77ba62c4cd12f83f7d99d"
     }
   },
-  "license_sha256": "3d96ddb29c3f72e59a4d50d17455e8d2989d603587bbbc88ec069641551b302a",
+  "license_sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
   "integration": "Original generic row softmax and called program helpers unchanged; fixed one-tile host specialization and contiguous bindings use the existing immutable v1 contract."
 }
