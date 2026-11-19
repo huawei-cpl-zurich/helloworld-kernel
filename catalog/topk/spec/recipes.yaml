@@ -1,0 +1,21 @@
+cases:
+- id: rows32_cols128
+  inputs:
+    x:
+      distribution: uniform
+      dtype: float32
+      seed: 42
+      shape:
+      - 32
+      - 128
+- id: rows45_cols257
+  inputs:
+    x:
+      distribution: uniform
+      dtype: float32
+      seed: 42
+      shape:
+      - 45
+      - 257
+generator: sha256-tensor-v2
+schema_version: 2
