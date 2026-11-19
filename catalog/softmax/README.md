@@ -19,3 +19,7 @@ uses the same frozen v1 specification. The four compatible source revisions
 `9c1b2be`, `c6ba637`, `b684fbc`, and `17c275f` all passed compilation,
 numerical validation and benchmarking on A5 and are published in Cannery.
 The provenance pins preserve the original GPU functions and program helpers.
+
+Include the [FlagGems attribution](triton-generic/NOTICE) and
+
+[license](triton-generic/LICENSE) with the listed historical extracts.

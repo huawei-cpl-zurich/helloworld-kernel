@@ -1,0 +1,8 @@
+FlagGems
+Copyright 2026 FlagOS Contributors
+
+The generic kernel and program helpers come from FlagGems under the accompanying
+Apache License 2.0. This notice applies to the extracted helper in upstream
+revisions b684fbc78add740db16dd414cad75dd2d2105ae3 and
+17c275fbdd3afc21a28536002557f854e3273c22. Include this notice and LICENSE
+when redistributing these historical extracts.
