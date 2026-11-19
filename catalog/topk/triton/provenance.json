@@ -4,7 +4,6 @@
   "path": "src/flag_gems/ops/topk.py",
   "committed_at": "2026-07-27T14:42:05+08:00",
   "source_sha256": "e6d433c2ab1fd63da45ac2d93d3ebed902453637f6a25aaf983b616b17ed7a65",
-  "kernel_ast_sha256": "455c167635bb1b366c6f075f157a2ecaf0df31ebc9d71cd4ab5d6bdf5dce3707",
   "dependencies": {
     "src/flag_gems/utils/triton_lang_extension.py": "2dec17517da4299badbcc7301115efe9bf6a7006d9c9c76b3878b790f02f7df5"
   },

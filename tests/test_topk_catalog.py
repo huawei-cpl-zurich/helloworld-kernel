@@ -44,17 +44,8 @@ class TopkCatalog(unittest.TestCase):
         def jit(function=None, **options):
             return jit if function is None else function
 
-        modules = {
-            name: ModuleType(name)
-            for name in (
-                'triton', 'triton.language', 'triton.language.extra',
-                'triton.language.extra.cann', 'triton.language.extra.cann.extension',
-            )
-        }
-        for name, module in modules.items():
-            if '.' in name:
-                parent, attribute = name.rsplit('.', 1)
-                setattr(modules[parent], attribute, module)
+        modules = {name: ModuleType(name) for name in ('triton', 'triton.language')}
+        modules['triton'].language = modules['triton.language']
         modules['triton'].jit = jit
         modules['triton'].next_power_of_2 = lambda size: 1 << (size - 1).bit_length()
         modules['triton.language'].constexpr = Constant
