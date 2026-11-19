@@ -1,3 +1,17 @@
+# Copyright 2026 FlagOS Contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 @triton.jit
 def prev_multiple_of(a, b):
     # the largest x<a that x%b ==0
@@ -15,7 +29,7 @@ def softmax_kernel_inner(
     TILE_N: tl.constexpr,
     ONE_TILE_PER_CTA: tl.constexpr,
 ):
-    pid_m = tle.program_id(0)
+    pid_m = ext.program_id(0)
     if ONE_TILE_PER_CTA:
         n_offsets = tl.arange(0, TILE_N)
         offset = pid_m * N + n_offsets
