@@ -1,0 +1,67 @@
+schema_version: 2
+generator: sha256-tensor-v2
+cases:
+- id: h64_kv128
+  inputs:
+    q:
+      shape:
+      - 1
+      - 64
+      - 576
+      dtype: float16
+      distribution: uniform
+      seed: 42
+    kv_cache:
+      shape:
+      - 1
+      - 128
+      - 576
+      dtype: float16
+      distribution: uniform
+      seed: 43
+    block_table:
+      shape:
+      - 1
+      dtype: int32
+      distribution: permutation
+      seed: 44
+    kv_lengths:
+      shape:
+      - 1
+      dtype: int32
+      distribution: randint
+      seed: 45
+      low: 128
+      high: 128
+- id: h64_kv129
+  inputs:
+    q:
+      shape:
+      - 1
+      - 64
+      - 576
+      dtype: float16
+      distribution: uniform
+      seed: 42
+    kv_cache:
+      shape:
+      - 2
+      - 128
+      - 576
+      dtype: float16
+      distribution: uniform
+      seed: 43
+    block_table:
+      shape:
+      - 2
+      dtype: int32
+      distribution: permutation
+      seed: 44
+    kv_lengths:
+      shape:
+      - 1
+      dtype: int32
+      distribution: randint
+      seed: 45
+      low: 129
+      high: 129

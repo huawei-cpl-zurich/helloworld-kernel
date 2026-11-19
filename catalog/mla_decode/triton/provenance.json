@@ -1,0 +1,15 @@
+{
+  "repository": "https://github.com/flagos-ai/FlagGems",
+  "revision": "3739518159b065e828ac575028f013514421d0b3",
+  "files": {
+    "src/flag_gems/runtime/backend/_ascend/fused/flash_mla.py": "3577f269c33a0610871d8207c63574ae6fb0aa2dd8b4a9afcd8825b7b04e3db2",
+    "src/flag_gems/utils/triton_lang_extension.py": "752d4e872d0b085f87263e459e8f97519ff8a15a2e101eefcbd89f0a88edafba",
+    "LICENSE": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+  },
+  "gpu_sha256": {
+    "flash_mla_attn_kernel": "2a788a077c13e73b2fb5e5811cb6269c67cb11e8bcf85054c7c79ab58613a358",
+    "program_id": "eb48b2ee62c0c712e92ddb4b52a3a7405b3a6611e5af12a44d333f4e9856c32e"
+  },
+  "kernel_file_sha256": "90c5aae9c479e0ed33d60e42e91441425ef4f8a9d9586ac645c189f75bfc5ebe",
+  "integration": "Verbatim GPU functions with LF line endings. Static factory supplies original heuristic and launch parameters."
+}
