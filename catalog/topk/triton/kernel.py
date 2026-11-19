@@ -43,9 +43,9 @@ def topk_stage1_kernel(
     CHUNK_SIZE: tl.constexpr,
     DESCENDING: tl.constexpr,
 ):
-    cur_batch = ext.program_id(0)
-    cur_chunk_idx = ext.program_id(1)
-    chunk_num = ext.num_programs(1)
+    cur_batch = tle.program_id(0)
+    cur_chunk_idx = tle.program_id(1)
+    chunk_num = tle.num_programs(1)
 
     y_ptr += cur_batch * chunk_num * k + cur_chunk_idx * k
     index_ptr += cur_batch * chunk_num * k + cur_chunk_idx * k
@@ -56,28 +56,23 @@ def topk_stage1_kernel(
     cols = tl.arange(0, CHUNK_SIZE)
     mask = (chunk_offset + cols) < N
 
-    mask_val = _get_finfo_val(x_ptr.dtype.element_ty, return_max=not DESCENDING)
+    mask_val = float("-inf") if DESCENDING else float("inf")
     x_val = tl.load(x_ptr + cols, mask=mask, other=mask_val).to(tl.float32)
+    available = mask
+
     for k_idx in range(k):
         if DESCENDING:
             chunk_select_val = tl.max(x_val)
-            chunk_select_idx = tl.argmax(x_val, axis=0)
         else:
             chunk_select_val = tl.min(x_val)
-            chunk_select_idx = tl.argmin(x_val, axis=0)
+        is_candidate = available & (x_val == chunk_select_val)
+        candidate_indices = tl.where(is_candidate, cols, CHUNK_SIZE)
+        chunk_select_idx = tl.argmin(candidate_indices, axis=0)
 
         tl.store(y_ptr + k_idx, chunk_select_val)
         tl.store(index_ptr + k_idx, chunk_select_idx + chunk_offset)
-
         if DESCENDING:
-            x_val = tl.where(
-                cols == chunk_select_idx,
-                _get_finfo_val(tl.float32, return_max=False),
-                x_val,
-            )
+            x_val = tl.where(cols == chunk_select_idx, float("-inf"), x_val)
         else:
-            x_val = tl.where(
-                cols == chunk_select_idx,
-                _get_finfo_val(tl.float32, return_max=True),
-                x_val,
-            )
+            x_val = tl.where(cols == chunk_select_idx, float("inf"), x_val)
+        available = available & (cols != chunk_select_idx)
