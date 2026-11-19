@@ -10,6 +10,8 @@ from types import ModuleType
 import unittest
 from unittest.mock import patch
 import torch
+
+from rms_norm_cases import signatures
 ROOT = Path(__file__).resolve().parents[1] / 'catalog/rms_norm'
 
 
@@ -50,11 +52,11 @@ class RmsNormCatalog(unittest.TestCase):
         factory = importlib.util.module_from_spec(spec)
         with patch.dict(sys.modules, modules):
             spec.loader.exec_module(factory)
-            for columns in (128, 512):
-                result = factory.build({
-                    'inputs': [{'shape': [32, columns]}, {'shape': [columns]}],
-                    'scalars': [{'name': 'epsilon', 'value': 1e-5}],
-                })
+            for variant in signatures():
+                inputs = {tensor['name']: tensor for tensor in variant['inputs']}
+                rows, columns = inputs['x']['shape']
+                epsilon = next(scalar['value'] for scalar in variant['scalars'] if scalar['name'] == 'epsilon')
+                result = factory.build(variant)
                 self.assertIs(result['kernel'].__globals__['rsqrt'], tl_math.rsqrt)
                 self.assertEqual(result['bindings'], [
                     ['Y_ptr', 'output', 'y'], ['X_ptr', 'input', 'x'],
@@ -62,9 +64,9 @@ class RmsNormCatalog(unittest.TestCase):
                 ])
                 self.assertEqual(result['constants'], {
                     'Y_row_stride': columns, 'X_row_stride': columns, 'W_row_stride': 0,
-                    'RSTD_row_stride': 1, 'n_cols': columns, 'eps': 1e-5, 'offset': 0.0,
-                    'casting_mode': 1, 'BLOCK_SIZE': columns,
+                    'RSTD_row_stride': 1, 'n_cols': columns, 'eps': epsilon, 'offset': 0.0,
+                    'casting_mode': 1, 'BLOCK_SIZE': 1 << (columns - 1).bit_length(),
                 })
                 bound = {binding[0] for binding in result['bindings']} | result['constants'].keys()
                 self.assertEqual(set(inspect.signature(result['kernel']).parameters), bound)
-                self.assertEqual(result['grid'], [32, 1, 1])
+                self.assertEqual(result['grid'], [rows, 1, 1])
