@@ -1,10 +1,15 @@
-# Verbatim upstream GPU functions and constants; see provenance.json.
-_MIN_FLOAT32_VAL: tl.constexpr = torch.finfo(torch.float32).min
-_MAX_FLOAT32_VAL: tl.constexpr = torch.finfo(torch.float32).max
-_MIN_FLOAT16_VAL: tl.constexpr = torch.finfo(torch.float16).min
-_MAX_FLOAT16_VAL: tl.constexpr = torch.finfo(torch.float16).max
-_MIN_BFLOAT16_VAL: tl.constexpr = torch.finfo(torch.bfloat16).min
-_MAX_BFLOAT16_VAL: tl.constexpr = torch.finfo(torch.bfloat16).max
+# Original FlagGems source under the accompanying license.
+_MIN_FLOAT32_VAL = tl.constexpr(torch.finfo(torch.float32).min)
+
+_MAX_FLOAT32_VAL = tl.constexpr(torch.finfo(torch.float32).max)
+
+_MIN_FLOAT16_VAL = tl.constexpr(torch.finfo(torch.float16).min)
+
+_MAX_FLOAT16_VAL = tl.constexpr(torch.finfo(torch.float16).max)
+
+_MIN_BFLOAT16_VAL = tl.constexpr(torch.finfo(torch.bfloat16).min)
+
+_MAX_BFLOAT16_VAL = tl.constexpr(torch.finfo(torch.bfloat16).max)
 
 @triton.jit
 def _get_finfo_val(
@@ -27,7 +32,6 @@ def _get_finfo_val(
         else:
             return _MIN_BFLOAT16_VAL
 
-
 @libentry()
 @triton.jit
 def topk_stage1_kernel(
@@ -39,9 +43,9 @@ def topk_stage1_kernel(
     CHUNK_SIZE: tl.constexpr,
     DESCENDING: tl.constexpr,
 ):
-    cur_batch = tl.program_id(0)
-    cur_chunk_idx = tl.program_id(1)
-    chunk_num = tl.num_programs(1)
+    cur_batch = tle.program_id(0)
+    cur_chunk_idx = tle.program_id(1)
+    chunk_num = tle.num_programs(1)
 
     y_ptr += cur_batch * chunk_num * k + cur_chunk_idx * k
     index_ptr += cur_batch * chunk_num * k + cur_chunk_idx * k

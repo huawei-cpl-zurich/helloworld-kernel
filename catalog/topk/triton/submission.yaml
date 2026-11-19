@@ -6,6 +6,7 @@ implementation:
     inputs:
     - factory.py
     - kernel.py
+    - extension.py
     options:
       optimization: release
   device: a5

@@ -13,12 +13,13 @@ class TopkCatalog(unittest.TestCase):
     def test_original_source_license_and_helper(self):
         provenance = json.loads((ROOT / 'triton/provenance.json').read_text())
         for name, expected in [('kernel.py', provenance['extraction']['extracted_file_sha256']),
-                               ('LICENSE', provenance['license_sha256'])]:
+                               ('LICENSE', provenance['license_sha256']),
+                               ('extension.py', provenance['extension']['extracted_file_sha256'])]:
             self.assertEqual(hashlib.sha256((ROOT / 'triton' / name).read_bytes()).hexdigest(), expected)
         tree = ast.parse((ROOT / 'triton/kernel.py').read_bytes())
         self.assertEqual({n.name for n in tree.body if isinstance(n, ast.FunctionDef)},
                          {'_get_finfo_val', 'topk_stage1_kernel'})
-        self.assertEqual(len([n for n in tree.body if isinstance(n, ast.AnnAssign)]), 6)
+        self.assertEqual(len([n for n in tree.body if isinstance(n, (ast.AnnAssign, ast.Assign))]), 6)
 
     def test_largest_smallest_values_indices_and_input_preservation(self):
         spec = importlib.util.spec_from_file_location('topk_reference', ROOT / 'spec/reference.py')

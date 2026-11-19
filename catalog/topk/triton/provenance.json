@@ -1,50 +1,26 @@
 {
   "repository": "https://github.com/flagos-ai/FlagGems",
-  "revision": "3e476453488e3eeb56704909fa7ec0b3d7cfe36b",
+  "revision": "98bd8c1ce8f6f0e885b1e4b25577669f86afad4c",
   "path": "src/flag_gems/ops/topk.py",
-  "committed_at": "2024-11-05T15:24:49+08:00",
-  "source_sha256": "6107d5f2f150617a7b94e412137af46cb1b4e2513bdb25b2703fddf59e7ea21c",
-  "kernel_ast_sha256": "3cb3dc1bf63cd47b49034d82757056434a5770fbd96d4e2688280fdf45ee6071",
-  "dependencies": {},
-  "status": "awaiting_native_qualification",
-  "integration": "Original stage1 GPU kernel, called original finfo helper and its exact float constants retained; single full-row chunk completes top-k for the frozen domain. Unused multichunk merge and host launcher omitted.",
+  "committed_at": "2026-04-10T18:45:18+08:00",
+  "source_sha256": "49f4a1cf9324bef32b47498d049a94d9f7ed74de617c7c233fd0c34e655529be",
+  "kernel_ast_sha256": "a5347048226a6082b9a39c3fc0dbccda8a45fd5dee2454132119d344c5db7323",
+  "dependencies": {
+    "src/flag_gems/utils/triton_lang_extension.py": "752d4e872d0b085f87263e459e8f97519ff8a15a2e101eefcbd89f0a88edafba"
+  },
+  "status": "staged_not_validated",
+  "integration": "Original float constants, TopK stage kernel, and program_id helper. Factory filters host decorators and loads the helper in an isolated module.",
   "extraction": {
-    "first_line": 22,
-    "last_line": 92,
     "functions": [
       "_get_finfo_val",
       "topk_stage1_kernel"
     ],
-    "verbatim_sha256": "f806e4ec1efec8c5066d2c30d59be12b5427c488be3e2736e5c1937d9a3c8396",
-    "global_lines": [
-      [
-        12,
-        12
-      ],
-      [
-        13,
-        13
-      ],
-      [
-        14,
-        14
-      ],
-      [
-        15,
-        15
-      ],
-      [
-        16,
-        16
-      ],
-      [
-        17,
-        17
-      ]
-    ],
-    "globals_sha256": "481dc0ecc44029c5a9f3db8bb56f2387183909b0c7837188953e286d8d1096c0",
-    "extracted_file_sha256": "8b5a4075f7797e9faf7f0741fa3029674f638a595d2ac7596aa7d9160b9833ab"
+    "extracted_file_sha256": "af15a07d6ebcd65e02f29e9dc88ec93996c21cb45ddb62c0482428d5d6c18476"
   },
-  "license_path": "LICENSE",
-  "license_sha256": "3d96ddb29c3f72e59a4d50d17455e8d2989d603587bbbc88ec069641551b302a"
+  "extension": {
+    "path": "src/flag_gems/utils/triton_lang_extension.py",
+    "source_sha256": "752d4e872d0b085f87263e459e8f97519ff8a15a2e101eefcbd89f0a88edafba",
+    "extracted_file_sha256": "b599b45ee504e0c11ac0726857a1f0497f6141840d40b95f7fc3472f493fd299"
+  },
+  "license_sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
 }
