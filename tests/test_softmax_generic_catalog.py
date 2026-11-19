@@ -33,17 +33,8 @@ class GenericSoftmaxCatalog(unittest.TestCase):
             function.arg_names = list(inspect.signature(function).parameters)
             return function
 
-        modules = {
-            name: ModuleType(name)
-            for name in (
-                'triton', 'triton.language', 'triton.language.extra',
-                'triton.language.extra.cann', 'triton.language.extra.cann.extension',
-            )
-        }
-        for name, module in modules.items():
-            if '.' in name:
-                parent, attribute = name.rsplit('.', 1)
-                setattr(modules[parent], attribute, module)
+        modules = {name: ModuleType(name) for name in ('triton', 'triton.language')}
+        modules['triton'].language = modules['triton.language']
         modules['triton'].jit = jit
         modules['triton.language'].constexpr = object()
         modules['triton.language'].tensor = object()
@@ -51,6 +42,7 @@ class GenericSoftmaxCatalog(unittest.TestCase):
         factory = importlib.util.module_from_spec(spec)
         with patch.dict(sys.modules, modules):
             spec.loader.exec_module(factory)
+            self.assertIs(factory.module.ext.program_id, factory.ext.program_id)
             for rows, columns in ((32, 128), (45, 257)):
                 result = factory.build({'inputs': [{'shape': [rows, columns]}], 'scalars': []})
                 self.assertEqual(result['grid'], [rows, 1, 1])
