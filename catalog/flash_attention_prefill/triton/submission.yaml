@@ -1,0 +1,19 @@
+implementation:
+  build:
+    abi: tensor-v2
+    adapter: triton
+    artifact: flash_attention_prefill_triton_a5
+    inputs:
+    - factory.py
+    - kernel.py
+    options:
+      optimization: release
+  device: a5
+  entrypoint: factory.py:build
+  language: triton
+kernel: team/flash_attention_prefill
+schema_version: 2
+spec_version: 2
+validation:
+  requested_atol: 0.001
+  requested_rtol: 0.001

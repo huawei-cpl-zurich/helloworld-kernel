@@ -1,0 +1,67 @@
+cases:
+- id: m128_k128_n64
+  inputs:
+    a:
+      distribution: randint
+      dtype: int8
+      high: 16
+      low: -16
+      seed: 42
+      shape:
+      - 128
+      - 128
+    b:
+      distribution: randint
+      dtype: int8
+      high: 16
+      low: -16
+      seed: 43
+      shape:
+      - 128
+      - 64
+    scale_a:
+      distribution: uniform
+      dtype: float32
+      seed: 44
+      shape:
+      - 128
+    scale_b:
+      distribution: uniform
+      dtype: float32
+      seed: 45
+      shape:
+      - 64
+- id: m256_k128_n128
+  inputs:
+    a:
+      distribution: randint
+      dtype: int8
+      high: 16
+      low: -16
+      seed: 42
+      shape:
+      - 256
+      - 128
+    b:
+      distribution: randint
+      dtype: int8
+      high: 16
+      low: -16
+      seed: 43
+      shape:
+      - 128
+      - 128
+    scale_a:
+      distribution: uniform
+      dtype: float32
+      seed: 44
+      shape:
+      - 256
+    scale_b:
+      distribution: uniform
+      dtype: float32
+      seed: 45
+      shape:
+      - 128
+generator: sha256-tensor-v2
+schema_version: 2
