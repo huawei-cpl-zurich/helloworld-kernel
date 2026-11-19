@@ -43,9 +43,9 @@ def topk_stage1_kernel(
     CHUNK_SIZE: tl.constexpr,
     DESCENDING: tl.constexpr,
 ):
-    cur_batch = tle.program_id(0)
-    cur_chunk_idx = tle.program_id(1)
-    chunk_num = tle.num_programs(1)
+    cur_batch = ext.program_id(0)
+    cur_chunk_idx = ext.program_id(1)
+    chunk_num = ext.num_programs(1)
 
     y_ptr += cur_batch * chunk_num * k + cur_chunk_idx * k
     index_ptr += cur_batch * chunk_num * k + cur_chunk_idx * k
