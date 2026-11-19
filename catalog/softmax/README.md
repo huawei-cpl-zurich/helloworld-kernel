@@ -8,4 +8,5 @@ Inputs use portable seeded generation. The immutable specification caches CPU
 reference outputs on ingress; subsequent implementation revisions reuse them.
 
 The upstream path history contains one distinct GPU function revision. Its
-isolated A5 smoke passed; website numerical validation and benchmarking are pending.
+isolated A5 smoke passed. The Cannery submission reached its build deadline.
+Provenance records the status at source import.
