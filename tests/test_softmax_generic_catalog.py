@@ -15,7 +15,12 @@ ROOT = Path(__file__).resolve().parents[1] / 'catalog/softmax/triton-generic'
 class GenericSoftmaxCatalog(unittest.TestCase):
     def test_source_helper_and_license(self):
         p = json.loads((ROOT / 'provenance.json').read_text())
-        ast.parse((ROOT / 'kernel.py').read_bytes())
+        tree = ast.parse((ROOT / 'kernel.py').read_bytes())
+        if sys.version_info[:2] == (3, 13):
+            functions = [node for node in tree.body if isinstance(node, ast.FunctionDef)]
+            normalized = ast.Module(body=functions, type_ignores=[])
+            digest = hashlib.sha256(ast.dump(normalized, include_attributes=False).encode()).hexdigest()
+            self.assertEqual(digest, p['gpu_ast_sha256'])
         for name, expected in [('kernel.py', p['extraction']['extracted_file_sha256']),
                                ('extension.py', p['dependency_extractions']['extension.py']['extracted_file_sha256']),
                                ('LICENSE', p['license_sha256'])]:

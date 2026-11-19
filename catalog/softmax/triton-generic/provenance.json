@@ -4,7 +4,7 @@
   "path": "src/flag_gems/ops/softmax.py",
   "committed_at": "2026-08-18T10:38:18+08:00",
   "source_sha256": "d7c6eef628fba956403c1f43f4a2c94dea1142ec8fa532359de5016e3bf9488d",
-  "gpu_ast_sha256": "22dbd92d673d46ae16dd264821b56b52eb89079cd89371d3909a097354d6d750",
+  "gpu_ast_sha256": "a6707115b6ccf3d89ccf3c1d8d3d949cfe3ccd221b1f9323ef7edcbfb757f80e",
   "dependencies": {
     "src/flag_gems/utils/triton_lang_extension.py": "2dec17517da4299badbcc7301115efe9bf6a7006d9c9c76b3878b790f02f7df5"
   },
@@ -22,5 +22,6 @@
     }
   },
   "license_sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
-  "integration": "Original generic row softmax and called program helpers unchanged; fixed one-tile host specialization and contiguous bindings use the existing immutable v1 contract."
+  "integration": "Original generic row softmax and called program helpers unchanged; fixed one-tile host specialization and contiguous bindings use the existing immutable v1 contract.",
+  "gpu_ast_serialization": "Python 3.13 ast.dump of an ast.Module with the extracted functions as its body in source order, an empty type_ignores list, and location attributes omitted. Encode as UTF-8 before hashing."
 }
