@@ -6,8 +6,14 @@
   "source_sha256": "d8a68b64f49e2d2e44203909fe8dd8c090e66f57fac494ea834ab59c39cb17a9",
   "kernel_ast_sha256": "a859fa9b3323187110ce136aa61182ab08c3f8ff3fe04bad99ce894244551e55",
   "dependencies": {},
-  "status": "staged_not_validated",
-  "integration": "host decorators unwrapped for direct ASTSource compilation; original JIT bodies unchanged",
+  "integration": "The factory selects the original JIT function by name from its AST and loads it with the pinned Triton Ascend runtime. The GPU definition is retained verbatim.",
   "license_path": "LICENSE",
-  "license_sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+  "license_sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+  "import_status": "staged_not_validated",
+  "qualification": {
+    "device": "a5",
+    "status": "published",
+    "release_id": "15fabde5-2dd4-48bf-9a03-54b77f4c8252"
+  },
+  "gpu_ast_serialization": "Python 3.13 ast.dump of an ast.Module with the topk_gating_softmax_kernel function node as its body, an empty type_ignores list, and location attributes omitted. Encode as UTF-8 before hashing."
 }
