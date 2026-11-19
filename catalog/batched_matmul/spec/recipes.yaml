@@ -1,0 +1,39 @@
+cases:
+- id: batch2_size128
+  inputs:
+    a:
+      distribution: uniform
+      dtype: float16
+      seed: 42
+      shape:
+      - 2
+      - 128
+      - 128
+    b:
+      distribution: uniform
+      dtype: float16
+      seed: 43
+      shape:
+      - 2
+      - 128
+      - 128
+- id: batch4_size256
+  inputs:
+    a:
+      distribution: uniform
+      dtype: float16
+      seed: 42
+      shape:
+      - 4
+      - 256
+      - 256
+    b:
+      distribution: uniform
+      dtype: float16
+      seed: 43
+      shape:
+      - 4
+      - 256
+      - 256
+generator: sha256-tensor-v2
+schema_version: 2

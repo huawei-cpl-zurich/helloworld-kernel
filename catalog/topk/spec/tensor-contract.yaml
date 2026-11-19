@@ -1,0 +1,42 @@
+cases:
+  rows32_cols128:
+    aliases: {}
+    outputs:
+      indices:
+        dtype: int64
+        shape:
+        - 32
+        - 8
+      values:
+        dtype: float32
+        shape:
+        - 32
+        - 8
+    scalars:
+      k:
+        kind: int64
+        value: 8
+      largest:
+        kind: bool
+        value: true
+  rows45_cols257:
+    aliases: {}
+    outputs:
+      indices:
+        dtype: int64
+        shape:
+        - 45
+        - 8
+      values:
+        dtype: float32
+        shape:
+        - 45
+        - 8
+    scalars:
+      k:
+        kind: int64
+        value: 8
+      largest:
+        kind: bool
+        value: true
+schema_version: 2

@@ -1,0 +1,11 @@
+{
+  "repository": "https://github.com/triton-lang/triton-ascend",
+  "revision": "a6ee6dbd09f58cf9589f87b9d4d4f0e2cbfc41e9",
+  "path": "third_party/ascend/tutorials/02-fused-softmax.py",
+  "committed_at": "2026-06-18T16:28:46+08:00",
+  "source_sha256": "eb3d2062ee0d46669e2f8b9be4eaa21f3213befa61384fa3e87a479f6528b02e",
+  "kernel_ast_sha256": "60e9f9a0d1a106a31d28e59c9170510120b593fbc0194c56741a83e8c13b8c13",
+  "status": "isolated_smoke_passed_awaiting_website_validation",
+  "license_path": "LICENSE",
+  "license_sha256": "4c4e9e91d43be2b3ec01b4dc4d7b810aa43c7bca960e555f817b054ddd283ada"
+}
