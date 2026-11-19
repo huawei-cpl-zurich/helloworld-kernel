@@ -7,7 +7,8 @@ and return FP16.
 
 Source/helper fragments and license are hash-pinned. Portable seeded v1 inputs
 cache CPU outputs once. All five imported revisions passed native compilation,
-correctness, and benchmarking on A5, and are published in Cannery.
+correctness, and benchmarking on A5, and are published in Cannery. Provenance
+records the status at source import.
 
 Include the [FlagGems attribution](triton/NOTICE) and [license](triton/LICENSE)
 when redistributing the historical extracts listed in the attribution file.
