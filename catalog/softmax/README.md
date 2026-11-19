@@ -20,6 +20,6 @@ uses the same frozen v1 specification. The four compatible source revisions
 numerical validation and benchmarking on A5 and are published in Cannery.
 The provenance pins preserve the original GPU functions and program helpers.
 
-Include the [FlagGems attribution](triton-generic/NOTICE) and
-
-[license](triton-generic/LICENSE) with the listed historical extracts.
+Use the LICENSE bundled with each historical source snapshot. Include the
+[FlagGems attribution](triton-generic/NOTICE) when redistributing the
+`b684fbc` or `17c275f` extracts.
