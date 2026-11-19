@@ -6,7 +6,9 @@ import json
 import math
 from pathlib import Path
 import sys
+from types import ModuleType
 import unittest
+from unittest.mock import patch
 import torch
 
 ROOT = Path(__file__).resolve().parents[1] / 'catalog/softmax'
@@ -43,3 +45,26 @@ class SoftmaxCatalog(unittest.TestCase):
         normalizer = 1 + math.e + math.e**2
         expected = torch.tensor([[1, math.e, math.e**2]], dtype=torch.float32) / normalizer
         self.assertTrue(torch.allclose(module.reference(logits)['out'].float(), expected, atol=0.001))
+
+    def test_factory_binds_both_frozen_shapes(self):
+        triton = ModuleType('triton')
+        language = ModuleType('triton.language')
+        triton.language = language
+        language.constexpr = object()
+        triton.jit = lambda function: function
+        triton.next_power_of_2 = lambda size: 1 << (size - 1).bit_length()
+        spec = importlib.util.spec_from_file_location('softmax_factory', ROOT / 'triton/factory.py')
+        factory = importlib.util.module_from_spec(spec)
+        with patch.dict(sys.modules, {'triton': triton, 'triton.language': language}):
+            spec.loader.exec_module(factory)
+            for rows, columns, block in ((32, 128, 128), (45, 257, 512)):
+                shape = {'shape': [rows, columns]}
+                result = factory.build({'inputs': [shape], 'outputs': [shape], 'scalars': []})
+                self.assertEqual(result['bindings'], [
+                    ['output_ptr', 'output', 'out'], ['input_ptr', 'input', 'x'],
+                ])
+                self.assertEqual(result['constants'], {
+                    'input_row_stride': columns, 'output_row_stride': columns,
+                    'n_rows': rows, 'n_cols': columns, 'BLOCK_SIZE': block,
+                })
+                self.assertEqual(result['grid'], [32, 1, 1])
