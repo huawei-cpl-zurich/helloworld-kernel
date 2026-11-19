@@ -1,18 +1,18 @@
 {
   "repository": "https://github.com/flagos-ai/FlagGems",
-  "revision": "b684fbc78add740db16dd414cad75dd2d2105ae3",
+  "revision": "17c275fbdd3afc21a28536002557f854e3273c22",
   "path": "src/flag_gems/ops/softmax.py",
-  "committed_at": "2026-07-18T21:35:28+08:00",
-  "source_sha256": "1790a62525be64f7847ff74bf1300e0c6856622e92019967d6604a58e47d0d91",
-  "gpu_ast_sha256": "67332fa1ed685231c572225bf1e746742946de4dafd4feec0a02664b11d0172d",
+  "committed_at": "2026-08-18T10:38:18+08:00",
+  "source_sha256": "d7c6eef628fba956403c1f43f4a2c94dea1142ec8fa532359de5016e3bf9488d",
+  "gpu_ast_sha256": "22dbd92d673d46ae16dd264821b56b52eb89079cd89371d3909a097354d6d750",
   "dependencies": {
     "src/flag_gems/utils/triton_lang_extension.py": "2dec17517da4299badbcc7301115efe9bf6a7006d9c9c76b3878b790f02f7df5"
   },
   "extraction": {
-    "first_line": 96,
-    "last_line": 174,
-    "verbatim_sha256": "11ab64abce325931f0e83d0d151f55d7617aa9e404d55cc9e256c742084d6362",
-    "extracted_file_sha256": "27960b1b4e89998852561cbcff2ea66eb2aacd7d45243fca4f5820f6bef57bed"
+    "first_line": 98,
+    "last_line": 176,
+    "verbatim_sha256": "b346abbd14a24a9d67713b3892c4bc08fdb3793efbfa2ca435cdd8dd76443dad",
+    "extracted_file_sha256": "92ab13da9ecef705412a3dd2cd6a47e0a6dcbd671455d9d4bfab1c426f2dc369"
   },
   "dependency_extractions": {
     "extension.py": {
