@@ -9,7 +9,8 @@ def program_id(
 ) -> tl.tensor:
     return tl.program_id(axis).to(tl.int64)
 
-tle = types.SimpleNamespace(program_id=program_id)
+tle = types.ModuleType("upstream_flaggems_extension")
+tle.program_id = program_id
 
 @triton.jit
 def flash_mla_attn_kernel(
