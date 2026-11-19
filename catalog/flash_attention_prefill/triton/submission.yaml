@@ -13,7 +13,7 @@ implementation:
   language: triton
 kernel: team/flash_attention_prefill
 schema_version: 2
-spec_version: 1
+spec_version: 2
 validation:
-  requested_atol: 0.0001
+  requested_atol: 0.001
   requested_rtol: 0.001

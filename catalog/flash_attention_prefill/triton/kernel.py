@@ -32,6 +32,15 @@ Extra Credits:
 
 """
 
+import torch
+import torch_npu
+import triton
+import triton.language as tl
+import triton.language.extra.cann.extension as extension
+
+DEVICE = "npu"
+
+
 @triton.jit
 def _attn_fwd_inner(acc_ptr, l_i, m_i, q,  # Accumulator, local l, local m, query vector
                     K_block_ptr, V_block_ptr,  # Key and value block pointers for current stage
@@ -116,13 +125,13 @@ def _attn_fwd_inner(acc_ptr, l_i, m_i, q,  # Accumulator, local l, local m, quer
                 # Calculate start/end rows for current slice
                 offset = i * (BLOCK_M // 4)
                 # Extract slice data
-                acc_i = tl.extract_slice(acc, (offset, 0), (BLOCK_M // 4, HEAD_DIM), (1, 1))
-                alpha_i = tl.extract_slice(alpha, [offset], [BLOCK_M // 4], [1])
-                pv_i = tl.extract_slice(pv, (offset, 0), (BLOCK_M // 4, HEAD_DIM), (1, 1))
+                acc_i = extension.extract_slice(acc, (offset, 0), (BLOCK_M // 4, HEAD_DIM), (1, 1))
+                alpha_i = extension.extract_slice(alpha, [offset], [BLOCK_M // 4], [1])
+                pv_i = extension.extract_slice(pv, (offset, 0), (BLOCK_M // 4, HEAD_DIM), (1, 1))
                 # Incrementally update slice: acc = acc * alpha + pv
                 acc_i = acc_i * alpha_i[:, None] + pv_i
                 # Write updated slice back to accumulator
-                acc = tl.insert_slice(acc, acc_i, (offset, 0), (BLOCK_M // 4, HEAD_DIM), (1, 1))
+                acc = extension.insert_slice(acc, acc_i, (offset, 0), (BLOCK_M // 4, HEAD_DIM), (1, 1))
             # 3. updated accumulator
             tl.store(acc_ptr + block2d_acc, acc)
 
@@ -154,10 +163,13 @@ def _attn_fwd(Q, K, V, M, Out, acc, sm_scale, stride_qz: tl.constexpr, stride_qh
         task_m_idx = block_idx % NUM_BLOCKS_M
         off_z = task_hz_idx // H
         off_h = task_hz_idx % H
-        qvk_offset = off_z.to(tl.int64) * stride_qz + off_h.to(tl.int64) * stride_qh
+        q_offset = off_z.to(tl.int64) * stride_qz + off_h.to(tl.int64) * stride_qh
+        k_offset = off_z.to(tl.int64) * stride_kz + off_h.to(tl.int64) * stride_kh
+        v_offset = off_z.to(tl.int64) * stride_vz + off_h.to(tl.int64) * stride_vh
+        o_offset = off_z.to(tl.int64) * stride_oz + off_h.to(tl.int64) * stride_oh
         # Create block pointers for Q, K, V, Output
         Q_block_ptr = tl.make_block_ptr(
-            base=Q + qvk_offset,
+            base=Q + q_offset,
             shape=(N_CTX, HEAD_DIM),
             strides=(stride_qm, stride_qk),
             offsets=(task_m_idx * BLOCK_M, 0),
@@ -165,7 +177,7 @@ def _attn_fwd(Q, K, V, M, Out, acc, sm_scale, stride_qz: tl.constexpr, stride_qh
             order=(1, 0),
         )
         V_block_ptr = tl.make_block_ptr(
-            base=V + qvk_offset,
+            base=V + v_offset,
             shape=(N_CTX, HEAD_DIM),
             strides=(stride_vn, stride_vk),
             offsets=(0, 0),
@@ -173,7 +185,7 @@ def _attn_fwd(Q, K, V, M, Out, acc, sm_scale, stride_qz: tl.constexpr, stride_qh
             order=(1, 0),
         )
         K_block_ptr = tl.make_block_ptr(
-            base=K + qvk_offset,
+            base=K + k_offset,
             shape=(N_CTX, HEAD_DIM),
             strides=(stride_kn, stride_kk),
             offsets=(0, 0),
@@ -181,7 +193,7 @@ def _attn_fwd(Q, K, V, M, Out, acc, sm_scale, stride_qz: tl.constexpr, stride_qh
             order=(1, 0),
         )
         O_block_ptr = tl.make_block_ptr(
-            base=Out + qvk_offset,
+            base=Out + o_offset,
             shape=(N_CTX, HEAD_DIM),
             strides=(stride_om, stride_on),
             offsets=(task_m_idx * BLOCK_M, 0),
@@ -199,8 +211,8 @@ def _attn_fwd(Q, K, V, M, Out, acc, sm_scale, stride_qz: tl.constexpr, stride_qh
         if HEAD_DIM < 256:
             acc_ptr = tl.zeros([BLOCK_M, HEAD_DIM], dtype=tl.float32)
         else:
-            acc_offset = (off_z.to(tl.int64) * stride_qz // stride_qm * HEAD_DIM +
-                          off_h.to(tl.int64) * stride_qh // stride_qm * HEAD_DIM + task_m_idx * BLOCK_M * HEAD_DIM)
+            # The scratch accumulator is contiguous regardless of Q's layout.
+            acc_offset = (task_hz_idx.to(tl.int64) * N_CTX + task_m_idx * BLOCK_M) * HEAD_DIM
             acc_ptr = acc + acc_offset
 
         # load q: it will stay in SRAM throughout
