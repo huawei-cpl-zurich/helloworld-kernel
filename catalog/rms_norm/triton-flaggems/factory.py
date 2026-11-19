@@ -2,7 +2,6 @@ import ast,sys,types
 from pathlib import Path
 import triton
 import triton.language as tl
-import triton.language.extra.cann.extension as extension
 root=Path(__file__).parent
 
 def definitions(filename,names,module_name):
@@ -16,15 +15,16 @@ def definitions(filename,names,module_name):
             (isinstance(d,ast.Attribute) and ast.unparse(d)=='triton.jit') or
             (isinstance(d,ast.Call) and ast.unparse(d.func)=='triton.jit')]
     module=types.ModuleType(module_name);module.__file__=str(path)
-    module.triton=triton;module.tl=tl;module.extension=extension
-    module.ext=globals().get('ext');module.tle=globals().get('ext');sys.modules[module_name]=module
+    module.triton=triton;module.tl=tl
+    sys.modules[module_name]=module
     exec(compile(ast.Module(body=functions,type_ignores=[]),str(path),'exec'),module.__dict__)
     return module
-ext=definitions('extension.py',['program_id','num_programs'],'upstream_flaggems_ext')
 module=definitions('kernel.py',['rms_norm_kernel'],'original_flaggems_rms')
 
 def build(signature):
     x,gamma=signature['inputs'];rows,cols=x['shape']
+    if cols > 4096:
+        raise ValueError('FlagGems RMSNorm supports at most 4096 columns per row')
     assert gamma['shape']==[cols]
     epsilon,=signature['scalars'];assert epsilon['name']=='epsilon'
     parameters=set(module.rms_norm_kernel.arg_names)
