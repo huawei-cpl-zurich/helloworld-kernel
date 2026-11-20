@@ -1,0 +1,28 @@
+cases:
+  tokens32_heads4_dim64:
+    aliases: {}
+    outputs:
+      out:
+        dtype: float16
+        shape:
+        - 32
+        - 4
+        - 64
+    scalars:
+      interleaved:
+        kind: bool
+        value: false
+  tokens45_heads2_dim128:
+    aliases: {}
+    outputs:
+      out:
+        dtype: float16
+        shape:
+        - 45
+        - 2
+        - 128
+    scalars:
+      interleaved:
+        kind: bool
+        value: true
+schema_version: 2

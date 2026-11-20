@@ -1,0 +1,51 @@
+cases:
+- id: tokens32_heads4_dim64
+  inputs:
+    cos:
+      distribution: uniform
+      dtype: float16
+      seed: 43
+      shape:
+      - 32
+      - 32
+    sin:
+      distribution: uniform
+      dtype: float16
+      seed: 44
+      shape:
+      - 32
+      - 32
+    state:
+      distribution: uniform
+      dtype: float16
+      seed: 42
+      shape:
+      - 32
+      - 4
+      - 64
+- id: tokens45_heads2_dim128
+  inputs:
+    cos:
+      distribution: uniform
+      dtype: float16
+      seed: 43
+      shape:
+      - 45
+      - 64
+    sin:
+      distribution: uniform
+      dtype: float16
+      seed: 44
+      shape:
+      - 45
+      - 64
+    state:
+      distribution: uniform
+      dtype: float16
+      seed: 42
+      shape:
+      - 45
+      - 2
+      - 128
+generator: sha256-tensor-v2
+schema_version: 2
