@@ -1,0 +1,40 @@
+cases:
+  rows32_cols128:
+    aliases:
+      out: x
+      residual_out: residual
+    outputs:
+      out:
+        dtype: float16
+        shape:
+        - 32
+        - 128
+      residual_out:
+        dtype: float16
+        shape:
+        - 32
+        - 128
+    scalars:
+      epsilon:
+        kind: float64
+        value: 1.0e-06
+  rows45_cols257:
+    aliases:
+      out: x
+      residual_out: residual
+    outputs:
+      out:
+        dtype: float16
+        shape:
+        - 45
+        - 257
+      residual_out:
+        dtype: float16
+        shape:
+        - 45
+        - 257
+    scalars:
+      epsilon:
+        kind: float64
+        value: 1.0e-06
+schema_version: 2
