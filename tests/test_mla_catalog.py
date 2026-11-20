@@ -19,6 +19,24 @@ ROOT = Path(__file__).resolve().parents[1] / "catalog/mla_decode"
 
 
 class MlaCatalogTest(unittest.TestCase):
+    def test_v2_changes_only_page_order_and_spec_version(self):
+        v1 = ROOT / "spec"
+        v2 = ROOT / "spec-v2"
+        original = yaml.safe_load((v1 / "recipes.yaml").read_text())
+        revised = yaml.safe_load((v2 / "recipes.yaml").read_text())
+        for case in original["cases"]:
+            self.assertEqual(case["inputs"]["block_table"]["seed"], 44)
+            case["inputs"]["block_table"]["seed"] = 45
+        self.assertEqual(revised, original)
+
+        original_spec = yaml.safe_load((v1 / "cannery.yaml").read_text())
+        original_spec["spec"]["version"] = 2
+        self.assertEqual(yaml.safe_load((v2 / "cannery.yaml").read_text()), original_spec)
+        for name in ("reference.py", "tensor-contract.yaml", "environment.lock"):
+            self.assertEqual((v2 / name).read_bytes(), (v1 / name).read_bytes())
+        submission = yaml.safe_load((ROOT / "triton/submission.yaml").read_text())
+        self.assertEqual(submission["spec_version"], 2)
+
     def test_source_pins(self):
         directory = ROOT / "triton"
         provenance = json.loads((directory / "provenance.json").read_text())

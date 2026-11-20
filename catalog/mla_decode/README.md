@@ -10,5 +10,6 @@ An offline compile probe accepted both frozen variants through Cannery's
 existing static export validator. Device admission and numeric qualification
 run through the Cannery site.
 
-Both frozen v1 cases use physical page order. The follow-up v2 spec adds a
-nonidentity block table to qualify page indirection.
+V2 preserves the v1 interface and tolerances. It changes the
+block-table seed for both cases. The one-page case still generates `[0]`.
+The two-page case generates `[1, 0]`, exercising page indirection.
