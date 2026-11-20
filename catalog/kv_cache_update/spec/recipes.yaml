@@ -1,0 +1,87 @@
+cases:
+- id: tokens16
+  inputs:
+    cache:
+      distribution: uniform
+      dtype: bfloat16
+      seed: 44
+      shape:
+      - 32
+      - 2
+      - 8
+      - 128
+    slots:
+      distribution: sequence
+      dtype: int32
+      high: 15
+      low: 0
+      seed: 43
+      shape:
+      - 16
+    updates:
+      distribution: uniform
+      dtype: bfloat16
+      seed: 42
+      shape:
+      - 16
+      - 2
+      - 8
+      - 128
+- id: tokens33
+  inputs:
+    cache:
+      distribution: uniform
+      dtype: bfloat16
+      seed: 44
+      shape:
+      - 64
+      - 2
+      - 16
+      - 128
+    slots:
+      distribution: sequence
+      dtype: int32
+      high: 32
+      low: 0
+      seed: 43
+      shape:
+      - 33
+    updates:
+      distribution: uniform
+      dtype: bfloat16
+      seed: 42
+      shape:
+      - 33
+      - 2
+      - 16
+      - 128
+- id: invalid_slots
+  inputs:
+    cache:
+      distribution: uniform
+      dtype: bfloat16
+      seed: 44
+      shape:
+      - 2
+      - 2
+      - 16
+      - 128
+    slots:
+      distribution: sequence
+      dtype: int32
+      high: 2
+      low: -1
+      seed: 43
+      shape:
+      - 4
+    updates:
+      distribution: uniform
+      dtype: bfloat16
+      seed: 42
+      shape:
+      - 4
+      - 2
+      - 16
+      - 128
+generator: sha256-tensor-v2
+schema_version: 2
