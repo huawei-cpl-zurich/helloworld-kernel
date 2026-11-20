@@ -473,5 +473,445 @@ __aicore__ inline void ComputeLatterY(LocalTensor<DX>& xLocal, LocalTensor<DG>& 
     }
 }
 
+/*!
+ * The num of each level elements is 256, ReduceSum these elements and store to the next level.
+ * @param level1Local level1Tensor
+ * @param level2Local level2Tensor
+ * @param level3Local level3Tensor
+ * @param level1 level1 elements
+ * @param level2 level2 elements
+ * @param level3 level3 elements
+ * @return void
+ */
+__aicore__ inline void ComputeMultiLevelReduce(LocalTensor<float>& level1Local, LocalTensor<float>& level2Local,
+                                               LocalTensor<float>& level3Local, uint32_t& level1, uint32_t& level2,
+                                               uint32_t& level3)
+{
+    if (level1 == NormCommon::ONCE_VECTOR_SIZE) {
+        LevelMergeRstd<false>(level2Local, level1Local, level2, NormCommon::ONCE_VECTOR_SIZE);
+        level1 = 0;
+        level2 += 1;
+    }
+    if (level2 == NormCommon::ONCE_VECTOR_SIZE) {
+        LevelMergeRstd<false>(level3Local, level2Local, level3, NormCommon::ONCE_VECTOR_SIZE);
+        level2 = 0;
+        level3 += 1;
+    }
+}
+
+__aicore__ inline void ComputeSum(LocalTensor<float>& dstLocal, LocalTensor<float>& srcLocal, uint32_t offset,
+                                  uint32_t count)
+{
+    uint32_t meanTile = count;
+    uint32_t meanSreg = meanTile;
+
+    __ubuf__ float* srcAddr = (__ubuf__ float*)srcLocal.GetPhyAddr();
+    __ubuf__ float* dstAddr = (__ubuf__ float*)dstLocal.GetPhyAddr();
+
+    __VEC_SCOPE__
+    {
+        RegTensor<float> vReg, vMean;
+        MaskReg pregLoop;
+        MaskReg pregMerge = CreateMask<float, MaskPattern::VL1>();
+        {
+            pregLoop = UpdateMask<float>(meanSreg);
+            LoadAlign(vReg, srcAddr + 0);
+            Reduce<AscendC::Reg::ReduceType::SUM>(vMean, vReg, pregLoop);
+            StoreAlign<float, StoreDist::DIST_FIRST_ELEMENT_B32>(dstAddr + offset, vMean, pregMerge);
+        }
+    }
+}
+
+template <typename T, bool SAVE_FP32>
+__aicore__ inline void LoadSquareRemainTile(__ubuf__ T* mainAddr, __ubuf__ T* tailAddr, uint16_t offset1,
+                                            uint16_t offset2, RegTensor<float>& mainA, RegTensor<float>& mainB,
+                                            RegTensor<float>& tailA, RegTensor<float>& tailB, MaskReg& pregLoop,
+                                            __ubuf__ float* xFp32MainAddr = nullptr,
+                                            __ubuf__ float* xFp32TailAddr = nullptr)
+{
+    if constexpr (IsSameType<T, half>::value) {
+        RegTensor<half> xFp16MainA, xFp16MainB, xFp16TailA, xFp16TailB;
+        LoadAlign<half, LoadDist::DIST_UNPACK_B16>(xFp16MainA, mainAddr + offset1);
+        LoadAlign<half, LoadDist::DIST_UNPACK_B16>(xFp16MainB, mainAddr + offset2);
+        LoadAlign<half, LoadDist::DIST_UNPACK_B16>(xFp16TailA, tailAddr + offset1);
+        LoadAlign<half, LoadDist::DIST_UNPACK_B16>(xFp16TailB, tailAddr + offset2);
+        Cast<float, half, castTraitB162B32>(mainA, xFp16MainA, pregLoop);
+        Cast<float, half, castTraitB162B32>(mainB, xFp16MainB, pregLoop);
+        Cast<float, half, castTraitB162B32>(tailA, xFp16TailA, pregLoop);
+        Cast<float, half, castTraitB162B32>(tailB, xFp16TailB, pregLoop);
+        if constexpr (SAVE_FP32) {
+            StoreAlign(xFp32MainAddr + offset1, mainA, pregLoop);
+            StoreAlign(xFp32MainAddr + offset2, mainB, pregLoop);
+            StoreAlign(xFp32TailAddr + offset1, tailA, pregLoop);
+            StoreAlign(xFp32TailAddr + offset2, tailB, pregLoop);
+        }
+#if !(defined(__NPU_ARCH__) && (__NPU_ARCH__ == 3003 || __NPU_ARCH__ == 3113))
+    } else if constexpr (IsSameType<T, bfloat16_t>::value) {
+        RegTensor<bfloat16_t> xBFp16MainA, xBFp16MainB, xBFp16TailA, xBFp16TailB;
+        LoadAlign<bfloat16_t, LoadDist::DIST_UNPACK_B16>(xBFp16MainA, mainAddr + offset1);
+        LoadAlign<bfloat16_t, LoadDist::DIST_UNPACK_B16>(xBFp16MainB, mainAddr + offset2);
+        LoadAlign<bfloat16_t, LoadDist::DIST_UNPACK_B16>(xBFp16TailA, tailAddr + offset1);
+        LoadAlign<bfloat16_t, LoadDist::DIST_UNPACK_B16>(xBFp16TailB, tailAddr + offset2);
+        Cast<float, bfloat16_t, castTraitB162B32>(mainA, xBFp16MainA, pregLoop);
+        Cast<float, bfloat16_t, castTraitB162B32>(mainB, xBFp16MainB, pregLoop);
+        Cast<float, bfloat16_t, castTraitB162B32>(tailA, xBFp16TailA, pregLoop);
+        Cast<float, bfloat16_t, castTraitB162B32>(tailB, xBFp16TailB, pregLoop);
+        if constexpr (SAVE_FP32) {
+            StoreAlign(xFp32MainAddr + offset1, mainA, pregLoop);
+            StoreAlign(xFp32MainAddr + offset2, mainB, pregLoop);
+            StoreAlign(xFp32TailAddr + offset1, tailA, pregLoop);
+            StoreAlign(xFp32TailAddr + offset2, tailB, pregLoop);
+        }
+#endif
+    } else {
+        LoadAlign(mainA, mainAddr + offset1);
+        LoadAlign(mainB, mainAddr + offset2);
+        LoadAlign(tailA, tailAddr + offset1);
+        LoadAlign(tailB, tailAddr + offset2);
+    }
+    Mul(mainA, mainA, mainA, pregLoop);
+    Mul(mainB, mainB, mainB, pregLoop);
+    Mul(tailA, tailA, tailA, pregLoop);
+    Mul(tailB, tailB, tailB, pregLoop);
+}
+
+template <typename T, bool SAVE_FP32>
+__aicore__ inline void LoadSquareMasterTile(__ubuf__ T* masterAddr, uint16_t offset1, uint16_t offset2,
+                                            RegTensor<float>& mainA, RegTensor<float>& mainB, MaskReg& pregLoop,
+                                            __ubuf__ float* xFp32MasterAddr = nullptr)
+{
+    if constexpr (IsSameType<T, half>::value) {
+        RegTensor<half> xFp16MainA, xFp16MainB;
+        LoadAlign<half, LoadDist::DIST_UNPACK_B16>(xFp16MainA, masterAddr + offset1);
+        LoadAlign<half, LoadDist::DIST_UNPACK_B16>(xFp16MainB, masterAddr + offset2);
+        Cast<float, half, castTraitB162B32>(mainA, xFp16MainA, pregLoop);
+        Cast<float, half, castTraitB162B32>(mainB, xFp16MainB, pregLoop);
+        if constexpr (SAVE_FP32) {
+            StoreAlign(xFp32MasterAddr + offset1, mainA, pregLoop);
+            StoreAlign(xFp32MasterAddr + offset2, mainB, pregLoop);
+        }
+        Mul(mainA, mainA, mainA, pregLoop);
+        Mul(mainB, mainB, mainB, pregLoop);
+#if !(defined(__NPU_ARCH__) && (__NPU_ARCH__ == 3003 || __NPU_ARCH__ == 3113))
+    } else if constexpr (IsSameType<T, bfloat16_t>::value) {
+        RegTensor<bfloat16_t> xBFp16MainA, xBFp16MainB;
+        LoadAlign<bfloat16_t, LoadDist::DIST_UNPACK_B16>(xBFp16MainA, masterAddr + offset1);
+        LoadAlign<bfloat16_t, LoadDist::DIST_UNPACK_B16>(xBFp16MainB, masterAddr + offset2);
+        Cast<float, bfloat16_t, castTraitB162B32>(mainA, xBFp16MainA, pregLoop);
+        Cast<float, bfloat16_t, castTraitB162B32>(mainB, xBFp16MainB, pregLoop);
+        if constexpr (SAVE_FP32) {
+            StoreAlign(xFp32MasterAddr + offset1, mainA, pregLoop);
+            StoreAlign(xFp32MasterAddr + offset2, mainB, pregLoop);
+        }
+        Mul(mainA, mainA, mainA, pregLoop);
+        Mul(mainB, mainB, mainB, pregLoop);
+#endif
+    } else {
+        LoadAlign(mainA, masterAddr + offset1);
+        LoadAlign(mainB, masterAddr + offset2);
+        Mul(mainA, mainA, mainA, pregLoop);
+        Mul(mainB, mainB, mainB, pregLoop);
+    }
+}
+
+template <typename T>
+__aicore__ inline void ComputeFormerImplV1MultiN(LocalTensor<T>& xLocal, LocalTensor<float>& xFp32,
+                                                 LocalTensor<float>& workLocal, LocalTensor<float>& rstdLocal,
+                                                 float avgFactor, float epsilon, uint32_t offset, uint32_t count,
+                                                 uint32_t powerSplit, uint32_t curRows)
+{
+    uint32_t remainTile = count - powerSplit;
+    uint16_t remainRepeats = remainTile / (2 * V_LENGTH);
+
+    uint32_t masterTile = powerSplit - remainTile;
+    uint16_t masterRepeats = masterTile / (2 * V_LENGTH);
+
+    uint32_t mergeTile = powerSplit / (2 * V_LENGTH);
+    uint16_t mergeRepeats = mergeTile / (2 * V_LENGTH);
+
+    uint32_t meanTile = mergeRepeats == 0 ? mergeTile : mergeRepeats;
+
+    __ubuf__ T* mainAddr = (__ubuf__ T*)xLocal.GetPhyAddr();
+    __ubuf__ T* tailAddr = (__ubuf__ T*)xLocal.GetPhyAddr() + int64_t(powerSplit);
+    __ubuf__ T* masterAddr = (__ubuf__ T*)xLocal.GetPhyAddr() + int64_t(remainTile);
+    __ubuf__ float *xFp32MainAddr, *xFp32TailAddr, *xFp32MasterAddr;
+    if constexpr (is_same<T, half>::value || is_same<T, bfloat16_t>::value) {
+        xFp32MainAddr = (__ubuf__ float*)xFp32.GetPhyAddr();
+        xFp32TailAddr = (__ubuf__ float*)xFp32.GetPhyAddr() + int64_t(powerSplit);
+        xFp32MasterAddr = (__ubuf__ float*)xFp32.GetPhyAddr() + int64_t(remainTile);
+    }
+    uint32_t curRowsAlign = CeilDiv((int32_t)curRows, 2);
+    int64_t unrollOffset = (curRows / 2) * count;
+    bool isWithTail = curRowsAlign - (curRows / 2);
+    uint32_t tailOffset = offset + curRows / 2;
+
+    __ubuf__ T* mainAddr1 = (__ubuf__ T*)xLocal.GetPhyAddr() + unrollOffset;
+    __ubuf__ T* tailAddr1 = (__ubuf__ T*)xLocal.GetPhyAddr() + int64_t(powerSplit) + unrollOffset;
+    __ubuf__ T* masterAddr1 = (__ubuf__ T*)xLocal.GetPhyAddr() + int64_t(remainTile) + unrollOffset;
+    __ubuf__ float *xFp32MainAddr1, *xFp32TailAddr1, *xFp32MasterAddr1;
+    if constexpr (is_same<T, half>::value || is_same<T, bfloat16_t>::value) {
+        xFp32MainAddr1 = (__ubuf__ float*)xFp32.GetPhyAddr() + unrollOffset;
+        xFp32TailAddr1 = (__ubuf__ float*)xFp32.GetPhyAddr() + int64_t(powerSplit) + unrollOffset;
+        xFp32MasterAddr1 = (__ubuf__ float*)xFp32.GetPhyAddr() + int64_t(remainTile) + unrollOffset;
+    }
+
+    __ubuf__ float* workAddr = (__ubuf__ float*)workLocal.GetPhyAddr();
+    __ubuf__ float* rstdAddr = (__ubuf__ float*)rstdLocal.GetPhyAddr();
+
+    __ubuf__ float* workAddr1 = (__ubuf__ float*)workLocal.GetPhyAddr() + NormCommon::ONCE_VECTOR_SIZE;
+    __ubuf__ float* rstdAddr1 = (__ubuf__ float*)rstdLocal.GetPhyAddr() + curRows / 2;
+
+    __VEC_SCOPE__
+    {
+        for (uint16_t row = 0; row < static_cast<uint16_t>(curRows / 2); row++) {
+            uint32_t remainSreg = remainTile;
+            uint32_t masterSreg = masterTile;
+            uint32_t mergeSreg = mergeTile;
+            uint32_t meanSreg = meanTile;
+            RegTensor<float> mainA, mainB, tailA, tailB, vMean, vDupReg, rstdReg;
+            MaskReg pregMerge = CreateMask<float, MaskPattern::VL1>();
+            MaskReg pregLoop;
+
+            uint32_t remainSreg1 = remainTile;
+            uint32_t masterSreg1 = masterTile;
+            uint32_t mergeSreg1 = mergeTile;
+            uint32_t meanSreg1 = meanTile;
+            RegTensor<float> mainA1, mainB1, tailA1, tailB1, vMean1, vDupReg1, rstdReg1;
+            MaskReg pregMain1 = CreateMask<float, MaskPattern::ALL>();
+            MaskReg pregMerge1 = CreateMask<float, MaskPattern::VL1>();
+            MaskReg pregLoop1;
+
+            for (uint16_t i = 0; i < (uint16_t)remainRepeats; ++i) {
+                pregLoop = UpdateMask<float>(remainSreg);
+                LoadSquareRemainTile<T, true>(mainAddr, tailAddr, (i * 2 + 0) * V_LENGTH, (i * 2 + 1) * V_LENGTH, mainA,
+                                              mainB, tailA, tailB, pregLoop, xFp32MainAddr, xFp32TailAddr);
+                Add(mainA, mainA, tailA, pregLoop);
+                Add(mainB, mainB, tailB, pregLoop);
+                Add(mainA, mainA, mainB, pregLoop);
+                Reduce<AscendC::Reg::ReduceType::SUM>(vMean, mainA, pregLoop);
+                StoreAlign<float, StoreDist::DIST_FIRST_ELEMENT_B32>(workAddr + i, vMean, pregMerge);
+            }
+            for (uint16_t i = 0; i < (uint16_t)masterRepeats; ++i) {
+                pregLoop = UpdateMask<float>(masterSreg);
+                LoadSquareMasterTile<T, true>(masterAddr, (i * 2 + 0) * V_LENGTH, (i * 2 + 1) * V_LENGTH, mainA, mainB,
+                                              pregLoop, xFp32MasterAddr);
+                Add(mainA, mainA, mainB, pregLoop);
+                Reduce<AscendC::Reg::ReduceType::SUM>(vMean, mainA, pregLoop);
+                StoreAlign<float, StoreDist::DIST_FIRST_ELEMENT_B32>(workAddr + remainRepeats + i, vMean, pregMerge);
+            }
+            // unroll part
+            for (uint16_t i = 0; i < (uint16_t)remainRepeats; ++i) {
+                pregLoop1 = UpdateMask<float>(remainSreg1);
+                LoadSquareRemainTile<T, true>(mainAddr1, tailAddr1, (i * 2 + 0) * V_LENGTH, (i * 2 + 1) * V_LENGTH,
+                                              mainA1, mainB1, tailA1, tailB1, pregLoop1, xFp32MainAddr1,
+                                              xFp32TailAddr1);
+                Add(mainA1, mainA1, tailA1, pregLoop1);
+                Add(mainB1, mainB1, tailB1, pregLoop1);
+                Add(mainA1, mainA1, mainB1, pregLoop1);
+                Reduce<AscendC::Reg::ReduceType::SUM>(vMean1, mainA1, pregLoop1);
+                StoreAlign<float, StoreDist::DIST_FIRST_ELEMENT_B32>(workAddr1 + i, vMean1, pregMerge1);
+            }
+            for (uint16_t i = 0; i < (uint16_t)masterRepeats; ++i) {
+                pregLoop1 = UpdateMask<float>(masterSreg1);
+                LoadSquareMasterTile<T, true>(masterAddr1, (i * 2 + 0) * V_LENGTH, (i * 2 + 1) * V_LENGTH, mainA1,
+                                              mainB1, pregLoop1, xFp32MasterAddr1);
+                Add(mainA1, mainA1, mainB1, pregLoop1);
+                Reduce<AscendC::Reg::ReduceType::SUM>(vMean1, mainA1, pregLoop1);
+                StoreAlign<float, StoreDist::DIST_FIRST_ELEMENT_B32>(workAddr1 + remainRepeats + i, vMean1, pregMerge1);
+            }
+            LocalMemBar<MemType::VEC_STORE, MemType::VEC_LOAD>();
+            for (uint16_t i = 0; i < (uint16_t)mergeRepeats; ++i) {
+                pregLoop = UpdateMask<float>(mergeSreg);
+                LoadAlign(mainA, workAddr + (i * 2 + 0) * V_LENGTH);
+                LoadAlign(mainB, workAddr + (i * 2 + 1) * V_LENGTH);
+                Add(mainA, mainA, mainB, pregLoop);
+                Reduce<AscendC::Reg::ReduceType::SUM>(vMean, mainA, pregLoop);
+                StoreAlign<float, StoreDist::DIST_FIRST_ELEMENT_B32>(workAddr + i, vMean, pregMerge);
+            }
+            // unroll part
+            for (uint16_t i = 0; i < (uint16_t)mergeRepeats; ++i) {
+                pregLoop1 = UpdateMask<float>(mergeSreg1);
+                LoadAlign(mainA1, workAddr1 + (i * 2 + 0) * V_LENGTH);
+                LoadAlign(mainB1, workAddr1 + (i * 2 + 1) * V_LENGTH);
+                Add(mainA1, mainA1, mainB1, pregLoop1);
+                Reduce<AscendC::Reg::ReduceType::SUM>(vMean1, mainA1, pregLoop1);
+                StoreAlign<float, StoreDist::DIST_FIRST_ELEMENT_B32>(workAddr1 + i, vMean1, pregMerge1);
+            }
+            LocalMemBar<MemType::VEC_STORE, MemType::VEC_LOAD>();
+            {
+                pregLoop = UpdateMask<float>(meanSreg);
+                LoadAlign(mainA, workAddr + 0);
+                Reduce<AscendC::Reg::ReduceType::SUM>(vMean, mainA, pregLoop);
+                Muls(vMean, vMean, avgFactor, pregMerge);
+                Adds(vMean, vMean, epsilon, pregMerge);
+                Sqrt(vMean, vMean, pregMerge);
+                Duplicate(vDupReg, float(1.0), pregMerge);
+                Div(rstdReg, vDupReg, vMean, pregMerge);
+                StoreAlign<float, StoreDist::DIST_FIRST_ELEMENT_B32>(rstdAddr + offset, rstdReg, pregMerge);
+            }
+            // unroll part
+            {
+                pregLoop1 = UpdateMask<float>(meanSreg1);
+                LoadAlign(mainA1, workAddr1 + 0);
+                Reduce<AscendC::Reg::ReduceType::SUM>(vMean1, mainA1, pregLoop1);
+                Muls(vMean1, vMean1, avgFactor, pregMerge1);
+                Adds(vMean1, vMean1, epsilon, pregMerge1);
+                Sqrt(vMean1, vMean1, pregMerge1);
+                Duplicate(vDupReg1, float(1.0), pregMerge1);
+                Div(rstdReg1, vDupReg1, vMean1, pregMerge1);
+                StoreAlign<float, StoreDist::DIST_FIRST_ELEMENT_B32>(rstdAddr1 + offset, rstdReg1, pregMerge1);
+            }
+            offset += 1;
+            mainAddr += int64_t(count);
+            tailAddr += int64_t(count);
+            masterAddr += int64_t(count);
+            xFp32MainAddr += int64_t(count);
+            xFp32TailAddr += int64_t(count);
+            xFp32MasterAddr += int64_t(count);
+
+            mainAddr1 += int64_t(count);
+            tailAddr1 += int64_t(count);
+            masterAddr1 += int64_t(count);
+            xFp32MainAddr1 += int64_t(count);
+            xFp32TailAddr1 += int64_t(count);
+            xFp32MasterAddr1 += int64_t(count);
+        }
+    }
+    uint32_t tailDataOffset = unrollOffset + (curRows / 2) * count;
+    __ubuf__ T* mainAddr2 = (__ubuf__ T*)xLocal.GetPhyAddr() + tailDataOffset;
+    __ubuf__ T* tailAddr2 = (__ubuf__ T*)xLocal.GetPhyAddr() + int64_t(powerSplit) + tailDataOffset;
+    __ubuf__ T* masterAddr2 = (__ubuf__ T*)xLocal.GetPhyAddr() + int64_t(remainTile) + tailDataOffset;
+    __ubuf__ float *xFp32MainAddr2, *xFp32TailAddr2, *xFp32MasterAddr2;
+    if constexpr (is_same<T, half>::value || is_same<T, bfloat16_t>::value) {
+        xFp32MainAddr2 = (__ubuf__ float*)xFp32.GetPhyAddr() + tailDataOffset;
+        xFp32TailAddr2 = (__ubuf__ float*)xFp32.GetPhyAddr() + int64_t(powerSplit) + tailDataOffset;
+        xFp32MasterAddr2 = (__ubuf__ float*)xFp32.GetPhyAddr() + int64_t(remainTile) + tailDataOffset;
+    }
+    if (isWithTail) {
+        __VEC_SCOPE__
+        {
+            uint32_t remainSreg1 = remainTile;
+            uint32_t masterSreg1 = masterTile;
+            uint32_t mergeSreg1 = mergeTile;
+            uint32_t meanSreg1 = meanTile;
+            RegTensor<float> mainA1, mainB1, tailA1, tailB1, vMean1, vDupReg1, rstdReg1;
+            MaskReg pregMain1 = CreateMask<float, MaskPattern::ALL>();
+            MaskReg pregMerge1 = CreateMask<float, MaskPattern::VL1>();
+            MaskReg pregLoop1;
+
+            for (uint16_t i = 0; i < (uint16_t)remainRepeats; ++i) {
+                pregLoop1 = UpdateMask<float>(remainSreg1);
+                LoadSquareRemainTile<T, true>(mainAddr2, tailAddr2, (i * 2 + 0) * V_LENGTH, (i * 2 + 1) * V_LENGTH,
+                                              mainA1, mainB1, tailA1, tailB1, pregLoop1, xFp32MainAddr2,
+                                              xFp32TailAddr2);
+                Add(mainA1, mainA1, tailA1, pregLoop1);
+                Add(mainB1, mainB1, tailB1, pregLoop1);
+                Add(mainA1, mainA1, mainB1, pregLoop1);
+                Reduce<AscendC::Reg::ReduceType::SUM>(vMean1, mainA1, pregLoop1);
+                StoreAlign<float, StoreDist::DIST_FIRST_ELEMENT_B32>(workAddr1 + i, vMean1, pregMerge1);
+            }
+            for (uint16_t i = 0; i < (uint16_t)masterRepeats; ++i) {
+                pregLoop1 = UpdateMask<float>(masterSreg1);
+                LoadSquareMasterTile<T, true>(masterAddr2, (i * 2 + 0) * V_LENGTH, (i * 2 + 1) * V_LENGTH, mainA1,
+                                              mainB1, pregLoop1, xFp32MasterAddr2);
+                Add(mainA1, mainA1, mainB1, pregLoop1);
+                Reduce<AscendC::Reg::ReduceType::SUM>(vMean1, mainA1, pregLoop1);
+                StoreAlign<float, StoreDist::DIST_FIRST_ELEMENT_B32>(workAddr1 + remainRepeats + i, vMean1, pregMerge1);
+            }
+            LocalMemBar<MemType::VEC_STORE, MemType::VEC_LOAD>();
+            for (uint16_t i = 0; i < (uint16_t)mergeRepeats; ++i) {
+                pregLoop1 = UpdateMask<float>(mergeSreg1);
+                LoadAlign(mainA1, workAddr1 + (i * 2 + 0) * V_LENGTH);
+                LoadAlign(mainB1, workAddr1 + (i * 2 + 1) * V_LENGTH);
+                Add(mainA1, mainA1, mainB1, pregLoop1);
+                Reduce<AscendC::Reg::ReduceType::SUM>(vMean1, mainA1, pregLoop1);
+                StoreAlign<float, StoreDist::DIST_FIRST_ELEMENT_B32>(workAddr1 + i, vMean1, pregMerge1);
+            }
+            LocalMemBar<MemType::VEC_STORE, MemType::VEC_LOAD>();
+            {
+                pregLoop1 = UpdateMask<float>(meanSreg1);
+                LoadAlign(mainA1, workAddr1 + 0);
+                Reduce<AscendC::Reg::ReduceType::SUM>(vMean1, mainA1, pregLoop1);
+                Muls(vMean1, vMean1, avgFactor, pregMerge1);
+                Adds(vMean1, vMean1, epsilon, pregMerge1);
+                Sqrt(vMean1, vMean1, pregMerge1);
+                Duplicate(vDupReg1, float(1.0), pregMerge1);
+                Div(rstdReg1, vDupReg1, vMean1, pregMerge1);
+                StoreAlign<float, StoreDist::DIST_FIRST_ELEMENT_B32>(rstdAddr1 + tailOffset, rstdReg1, pregMerge1);
+            }
+        }
+    }
+}
+
+template <typename T>
+__aicore__ inline void ComputeFormerImplV2(LocalTensor<float>& dstLocal, LocalTensor<T>& xLocal,
+                                           LocalTensor<float>& workLocal, uint32_t offset, uint32_t count,
+                                           uint32_t powerSplit)
+{
+    uint32_t remainTile = count - powerSplit;
+    uint32_t remainSreg = remainTile;
+    uint16_t remainRepeats = remainTile / (2 * V_LENGTH);
+
+    uint32_t masterTile = powerSplit - remainTile;
+    uint32_t masterSreg = masterTile;
+    uint16_t masterRepeats = masterTile / (2 * V_LENGTH);
+
+    uint32_t mergeTile = powerSplit / (2 * V_LENGTH);
+    uint32_t mergeSreg = mergeTile;
+    uint16_t mergeRepeats = mergeTile / (2 * V_LENGTH);
+
+    uint32_t meanTile = mergeRepeats == 0 ? mergeTile : mergeRepeats;
+    uint32_t meanSreg = meanTile;
+
+    __ubuf__ T* mainAddr = (__ubuf__ T*)xLocal.GetPhyAddr();
+    __ubuf__ T* tailAddr = (__ubuf__ T*)xLocal.GetPhyAddr() + int64_t(powerSplit);
+    __ubuf__ T* masterAddr = (__ubuf__ T*)xLocal.GetPhyAddr() + int64_t(remainTile);
+
+    __ubuf__ float* workAddr = (__ubuf__ float*)workLocal.GetPhyAddr();
+    __ubuf__ float* dstAddr = (__ubuf__ float*)dstLocal.GetPhyAddr();
+
+    __VEC_SCOPE__
+    {
+        RegTensor<float> mainA, mainB, tailA, tailB, vMean, vDupReg, rstdReg;
+        MaskReg pregMerge = CreateMask<float, MaskPattern::VL1>();
+        MaskReg pregLoop;
+
+        for (uint16_t i = 0; i < (uint16_t)remainRepeats; ++i) {
+            pregLoop = UpdateMask<float>(remainSreg);
+            LoadSquareRemainTile<T, false>(mainAddr, tailAddr, (i * 2 + 0) * V_LENGTH, (i * 2 + 1) * V_LENGTH, mainA,
+                                           mainB, tailA, tailB, pregLoop);
+            Add(mainA, mainA, tailA, pregLoop);
+            Add(mainB, mainB, tailB, pregLoop);
+            Add(mainA, mainA, mainB, pregLoop);
+            Reduce<AscendC::Reg::ReduceType::SUM>(vMean, mainA, pregLoop);
+            StoreAlign<float, StoreDist::DIST_FIRST_ELEMENT_B32>(workAddr + i, vMean, pregMerge);
+        }
+        for (uint16_t i = 0; i < (uint16_t)masterRepeats; ++i) {
+            pregLoop = UpdateMask<float>(masterSreg);
+            LoadSquareMasterTile<T, false>(masterAddr, (i * 2 + 0) * V_LENGTH, (i * 2 + 1) * V_LENGTH, mainA, mainB,
+                                           pregLoop);
+            Add(mainA, mainA, mainB, pregLoop);
+            Reduce<AscendC::Reg::ReduceType::SUM>(vMean, mainA, pregLoop);
+            StoreAlign<float, StoreDist::DIST_FIRST_ELEMENT_B32>(workAddr + remainRepeats + i, vMean, pregMerge);
+        }
+        LocalMemBar<MemType::VEC_STORE, MemType::VEC_LOAD>();
+        for (uint16_t i = 0; i < (uint16_t)mergeRepeats; ++i) {
+            pregLoop = UpdateMask<float>(mergeSreg);
+            LoadAlign(mainA, workAddr + (i * 2 + 0) * V_LENGTH);
+            LoadAlign(mainB, workAddr + (i * 2 + 1) * V_LENGTH);
+            Add(mainA, mainA, mainB, pregLoop);
+            Reduce<AscendC::Reg::ReduceType::SUM>(vMean, mainA, pregLoop);
+            StoreAlign<float, StoreDist::DIST_FIRST_ELEMENT_B32>(workAddr + i, vMean, pregMerge);
+        }
+        LocalMemBar<MemType::VEC_STORE, MemType::VEC_LOAD>();
+        {
+            pregLoop = UpdateMask<float>(meanSreg);
+            LoadAlign(mainA, workAddr + 0);
+            Reduce<AscendC::Reg::ReduceType::SUM>(vMean, mainA, pregLoop);
+            StoreAlign<float, StoreDist::DIST_FIRST_ELEMENT_B32>(dstAddr + offset, vMean, pregMerge);
+        }
+    }
+}
+
 } // namespace RmsNorm
 #endif // OPS_BUILT_IN_TBE_IMPL_ASCENDC_RMS_NORM_REGBASE_COMMON_H
