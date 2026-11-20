@@ -1,0 +1,13 @@
+{
+  "repository": "https://github.com/flagos-ai/FlagGems",
+  "revision": "b684fbc78add740db16dd414cad75dd2d2105ae3",
+  "path": "src/flag_gems/experimental_ops/gelu_.py",
+  "committed_at": "2026-07-18T21:35:28+08:00",
+  "source_sha256": "4fd1ac679de12c4fd8ab67ffb57416ef87f54ce6e2aa99710bb654b2b97e67c6",
+  "kernel_ast_sha256": "85d5d67a29c4ab635aaae8e9a25b7f7ca1381245fb5a25067387d984c0b94f61",
+  "dependencies": {},
+  "status": "cpu_compiled_awaiting_website_validation",
+  "integration": "Original GPU function unchanged; 4096-element host launch tile matches supported compiler scheduling (1024 was rejected).",
+  "license_path": "LICENSE",
+  "license_sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+}
