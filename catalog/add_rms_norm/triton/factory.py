@@ -2,7 +2,6 @@ import ast,sys,types
 from pathlib import Path
 import triton
 import triton.language as tl
-import triton.language.extra.cann.extension as extension
 root=Path(__file__).parent
 
 def definitions(filename,names,module_name):
@@ -16,8 +15,8 @@ def definitions(filename,names,module_name):
             (isinstance(d,ast.Attribute) and ast.unparse(d)=='triton.jit') or
             (isinstance(d,ast.Call) and ast.unparse(d.func)=='triton.jit')]
     module=types.ModuleType(module_name);module.__file__=str(path)
-    module.triton=triton;module.tl=tl;module.extension=extension
-    module.ext=globals().get('ext');sys.modules[module_name]=module
+    module.triton=triton;module.tl=tl
+    sys.modules[module_name]=module
     exec(compile(ast.Module(body=functions,type_ignores=[]),str(path),'exec'),module.__dict__)
     return module
 module=definitions('kernel.py',['fused_add_rms_norm_kernel'],'upstream_flaggems_add_rms_norm')
