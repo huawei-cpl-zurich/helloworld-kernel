@@ -1,0 +1,13 @@
+{
+  "repository": "https://github.com/flagos-ai/FlagGems",
+  "revision": "b684fbc78add740db16dd414cad75dd2d2105ae3",
+  "path": "src/flag_gems/runtime/backend/_ascend/fused/fused_add_rms_norm.py",
+  "committed_at": "2026-07-18T21:35:28+08:00",
+  "source_sha256": "2777e18f59c9e16e5a89fcff7d559c39107923838c49ad70e292e6081fff5c43",
+  "kernel_ast_sha256": "603d5da5fe1b742e46622ce2f39bfab1a5cc3a7b6483d826ee1819e607511864",
+  "dependencies": {},
+  "status": "cpu_compiled_awaiting_website_validation",
+  "integration": "host decorators unwrapped for direct ASTSource compilation; original JIT bodies unchanged",
+  "license_path": "LICENSE",
+  "license_sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+}
