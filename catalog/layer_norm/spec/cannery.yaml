@@ -1,0 +1,27 @@
+kernel:
+  description: Affine row-wise layer normalization with mean and reciprocal standard
+    deviation.
+  name: layer_norm
+  namespace: team
+schema_version: 2
+spec:
+  cases:
+    recipe_file: recipes.yaml
+    tensor_contract_file: tensor-contract.yaml
+  interface:
+    inputs:
+    - x
+    - weight
+    - bias
+    outputs:
+    - out
+    - mean
+    - rstd
+  reference:
+    file: reference.py
+    function: reference
+  validation:
+    default_atol: 0.0001
+    default_rtol: 0.001
+    metric: torch_close
+  version: 1

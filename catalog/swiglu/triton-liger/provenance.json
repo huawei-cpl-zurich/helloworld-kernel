@@ -1,0 +1,15 @@
+{
+  "repository": "https://github.com/linkedin/Liger-Kernel",
+  "revision": "90f807a321f419e8c619facd411f9f9bf94cc792",
+  "path": "src/liger_kernel/ops/swiglu.py",
+  "source_sha256": "7397029e8fefac0de42e5eeafcbbac147644a91c357bd30b9ba019fa5df3ce0a",
+  "upstream_date": "2026-08-31T22:37:35Z",
+  "license_sha256": "3a1ccb0c7274b68e1af2ca1d54b10b662085ca56753400182ecf87ae33f2d1a8",
+  "extraction": {
+    "first_line": 44,
+    "last_line": 75,
+    "verbatim_sha256": "a956a28c333671291d61d01dd9d8a56def65ddae162b4f9bebebb95f9b73a32f",
+    "extracted_file_sha256": "6a415a7b95243033ab2ef9874b014ee97417f27fdcadcbd9cebf029b38d8a434"
+  },
+  "integration": "Original silu/one-block forward GPU functions unchanged. A thin JIT ABI entrypoint provides the standard gate multiplier as FP32 scalar tensor 1; no data transformations or new operator math."
+}

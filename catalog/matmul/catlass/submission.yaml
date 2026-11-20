@@ -1,0 +1,21 @@
+implementation:
+  build:
+    abi: tensor-v2
+    adapter: catlass
+    artifact: matmul_catlass_a5
+    inputs:
+    - factory.py
+    - helpers/__init__.py
+    - helpers/params.py
+    - kernel.py
+    options:
+      optimization: release
+  device: a5
+  entrypoint: factory.py:build
+  language: catlass
+kernel: team/matmul
+schema_version: 2
+spec_version: 1
+validation:
+  requested_atol: 0.0001
+  requested_rtol: 0.001
