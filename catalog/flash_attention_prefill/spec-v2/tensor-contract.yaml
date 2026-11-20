@@ -1,0 +1,42 @@
+cases:
+  context128:
+    aliases: {}
+    outputs:
+      lse:
+        dtype: float32
+        shape:
+        - 1
+        - 2
+        - 128
+      out:
+        dtype: float16
+        shape:
+        - 1
+        - 2
+        - 128
+        - 64
+    scalars:
+      sm_scale:
+        kind: float64
+        value: 0.125
+  context256:
+    aliases: {}
+    outputs:
+      lse:
+        dtype: float32
+        shape:
+        - 1
+        - 2
+        - 256
+      out:
+        dtype: float16
+        shape:
+        - 1
+        - 2
+        - 256
+        - 64
+    scalars:
+      sm_scale:
+        kind: float64
+        value: 0.125
+schema_version: 2

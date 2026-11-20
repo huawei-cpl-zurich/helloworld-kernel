@@ -1,0 +1,28 @@
+kernel:
+  description: Single-query causal decode over permuted paged KV caches.
+  name: paged_attention_decode
+  namespace: team
+schema_version: 2
+spec:
+  cases:
+    recipe_file: recipes.yaml
+    tensor_contract_file: tensor-contract.yaml
+  interface:
+    inputs:
+    - q
+    - k_cache
+    - v_cache
+    - block_table
+    - q_start
+    - q_lengths
+    - kv_lengths
+    outputs:
+    - out
+  reference:
+    file: reference.py
+    function: reference
+  validation:
+    default_atol: 0.0001
+    default_rtol: 0.001
+    metric: torch_close
+  version: 1
