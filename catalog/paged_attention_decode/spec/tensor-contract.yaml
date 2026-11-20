@@ -1,0 +1,18 @@
+cases:
+  b2_h4_d64_kv128:
+    aliases: {}
+    outputs:
+      out:
+        dtype: float16
+        shape: [2, 4, 64]
+    scalars:
+      sm_scale: {kind: float64, value: 0.125}
+  b2_h4_d64_kv64:
+    aliases: {}
+    outputs:
+      out:
+        dtype: float16
+        shape: [2, 4, 64]
+    scalars:
+      sm_scale: {kind: float64, value: 0.125}
+schema_version: 2

@@ -1,0 +1,25 @@
+{
+  "repository": "https://github.com/flagos-ai/FlagGems",
+  "revision": "62e172edf003a9d0cfbe4d4f583d874307112014",
+  "path": "src/flag_gems/ops/topk.py",
+  "committed_at": "2026-07-27T14:42:05+08:00",
+  "source_sha256": "e6d433c2ab1fd63da45ac2d93d3ebed902453637f6a25aaf983b616b17ed7a65",
+  "dependencies": {
+    "src/flag_gems/utils/triton_lang_extension.py": "2dec17517da4299badbcc7301115efe9bf6a7006d9c9c76b3878b790f02f7df5"
+  },
+  "status": "staged_not_validated",
+  "integration": "Original float constants, TopK stage kernel, and program_id and num_programs helpers. Factory filters host decorators and loads the helper in an isolated module.",
+  "extraction": {
+    "functions": [
+      "_get_finfo_val",
+      "topk_stage1_kernel"
+    ],
+    "extracted_file_sha256": "0d4c5f397addef7f05e6b9dea333f7be7db6598dfedabbbb853b007bc242932e"
+  },
+  "extension": {
+    "path": "src/flag_gems/utils/triton_lang_extension.py",
+    "source_sha256": "2dec17517da4299badbcc7301115efe9bf6a7006d9c9c76b3878b790f02f7df5",
+    "extracted_file_sha256": "c043e2a87a0b26ac4f6fb9e8fe8f88b9d08fd2bfba4f86cc34045e03d60e70d6"
+  },
+  "license_sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+}

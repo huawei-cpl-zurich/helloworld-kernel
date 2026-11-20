@@ -1,0 +1,21 @@
+cases:
+- id: rows32_experts16
+  inputs:
+    logits:
+      distribution: uniform
+      dtype: float32
+      seed: 42
+      shape:
+      - 32
+      - 16
+- id: rows64_experts32
+  inputs:
+    logits:
+      distribution: uniform
+      dtype: float32
+      seed: 42
+      shape:
+      - 64
+      - 32
+generator: sha256-tensor-v2
+schema_version: 2

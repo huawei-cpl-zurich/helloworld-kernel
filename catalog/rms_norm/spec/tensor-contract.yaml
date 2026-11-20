@@ -1,0 +1,34 @@
+cases:
+  rows32_cols128:
+    aliases: {}
+    outputs:
+      rstd:
+        dtype: float32
+        shape:
+        - 32
+      y:
+        dtype: float16
+        shape:
+        - 32
+        - 128
+    scalars:
+      epsilon:
+        kind: float64
+        value: 1.0e-06
+  rows32_cols512:
+    aliases: {}
+    outputs:
+      rstd:
+        dtype: float32
+        shape:
+        - 32
+      y:
+        dtype: float16
+        shape:
+        - 32
+        - 512
+    scalars:
+      epsilon:
+        kind: float64
+        value: 1.0e-06
+schema_version: 2
