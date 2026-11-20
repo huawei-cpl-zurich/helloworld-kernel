@@ -21,5 +21,10 @@
     "extracted_file_sha256": "8e6e2473a36a15d041b50385e5ed6df979217712d3edd3f9768c2a89d9da3edb"
   },
   "license_path": "LICENSE",
-  "license_sha256": "e3e715e6d251c826acf0fbbce5971bc71f3616ab99f7a1c290ce10964bfed86e"
+  "license_sha256": "e3e715e6d251c826acf0fbbce5971bc71f3616ab99f7a1c290ce10964bfed86e",
+  "additional_license": {
+    "path": "LICENSE.lmdeploy",
+    "source": "https://github.com/InternLM/lmdeploy/blob/v0.6.1/LICENSE",
+    "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+  }
 }

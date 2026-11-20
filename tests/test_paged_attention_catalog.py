@@ -12,7 +12,8 @@ class PagedAttentionCatalog(unittest.TestCase):
     def test_source_and_license_pins(self):
         provenance = json.loads((ROOT / 'triton/provenance.json').read_text())
         for name, expected in [('kernel.py', provenance['extraction']['extracted_file_sha256']),
-                               ('LICENSE', provenance['license_sha256'])]:
+                               ('LICENSE', provenance['license_sha256']),
+                               ('LICENSE.lmdeploy', provenance['additional_license']['sha256'])]:
             self.assertEqual(hashlib.sha256((ROOT / 'triton' / name).read_bytes()).hexdigest(), expected)
 
     def test_page_table_order_length_and_grouped_heads(self):
