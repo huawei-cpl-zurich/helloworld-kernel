@@ -1,0 +1,9 @@
+Huawei Triton Ascend paged attention carries the source-file copyright notices
+for Huawei Technologies Co., Ltd., DeepLink, and OpenMMLab.
+
+The source credits LMDeploy v0.6.1, whose corresponding file credits ModelTC
+LightLLM:
+https://github.com/InternLM/lmdeploy/blob/v0.6.1/lmdeploy/pytorch/kernels/cuda/pagedattention.py
+https://github.com/ModelTC/lightllm
+
+LICENSE.lmdeploy contains the license for the cited LMDeploy revision.
