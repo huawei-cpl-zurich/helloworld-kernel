@@ -1,0 +1,21 @@
+{
+  "repository": "https://github.com/bassrehab/triton-kernels",
+  "revision": "95297b9a06f3db063c879e20c6745445cbbcb808",
+  "committed_at": "2026-07-21T13:25:22Z",
+  "path": "triton_kernels/moe/permute.py",
+  "source_sha256": "ac2c2f6aaa5ea9c1aa007232a391bba16300fecb9f9514e7e19211a743bd1e09",
+  "source_git_blob": "620ecaf48cc90c9594f08c2268d3612e66dc6e8c",
+  "gpu_ast_sha256": "f14bdee77c07e06f9c2157ce0a59e54b7a182ca4296af5e3f7d44ab62c83b839",
+  "license_path": "LICENSE",
+  "license_sha256": "f7c0cc1f497359970ff5eff2bb855d0a973bafc1a5ac668dcfd66eade85b1fa1",
+  "status": "awaiting_native_qualification",
+  "integration": "Verbatim original GPU function; unused other kernels, host routing and Torch demos omitted. Host factory unchanged.",
+  "extraction": {
+    "first_line": 84,
+    "last_line": 138,
+    "function": "_unpermute_kernel",
+    "verbatim_sha256": "6b731428c51d4e6412a0bb3699a74fe5fe58f4744ad900cab09011523a83cfe6",
+    "gpu_ast_sha256": "f14bdee77c07e06f9c2157ce0a59e54b7a182ca4296af5e3f7d44ab62c83b839",
+    "extracted_file_sha256": "6b731428c51d4e6412a0bb3699a74fe5fe58f4744ad900cab09011523a83cfe6"
+  }
+}

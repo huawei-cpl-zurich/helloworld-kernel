@@ -1,0 +1,19 @@
+implementation:
+  build:
+    abi: tensor-v2
+    adapter: triton
+    artifact: rms_norm_triton_a5
+    inputs:
+    - factory.py
+    - kernel.py
+    options:
+      optimization: release
+  device: a5
+  entrypoint: factory.py:build
+  language: triton
+kernel: team/rms_norm
+schema_version: 2
+spec_version: 1
+validation:
+  requested_atol: 0.0001
+  requested_rtol: 0.001

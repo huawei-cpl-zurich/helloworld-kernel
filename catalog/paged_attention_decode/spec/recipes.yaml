@@ -1,0 +1,89 @@
+cases:
+- id: b2_h4_d64_kv64
+  inputs:
+    block_table:
+      distribution: permutation
+      dtype: int32
+      seed: 45
+      shape: [8]
+    k_cache:
+      distribution: uniform
+      dtype: float16
+      seed: 43
+      shape: [8, 16, 2, 64]
+    kv_lengths:
+      distribution: randint
+      dtype: int32
+      high: 64
+      low: 64
+      seed: 0
+      shape: [2]
+    q:
+      distribution: uniform
+      dtype: float16
+      seed: 42
+      shape: [2, 4, 64]
+    q_lengths:
+      distribution: randint
+      dtype: int32
+      high: 1
+      low: 1
+      seed: 0
+      shape: [2]
+    q_start:
+      distribution: sequence
+      dtype: int32
+      high: 1
+      low: 0
+      seed: 0
+      shape: [2]
+    v_cache:
+      distribution: uniform
+      dtype: float16
+      seed: 44
+      shape: [8, 16, 2, 64]
+- id: b2_h4_d64_kv128
+  inputs:
+    block_table:
+      distribution: permutation
+      dtype: int32
+      seed: 45
+      shape: [16]
+    k_cache:
+      distribution: uniform
+      dtype: float16
+      seed: 43
+      shape: [16, 16, 2, 64]
+    kv_lengths:
+      distribution: randint
+      dtype: int32
+      high: 128
+      low: 128
+      seed: 0
+      shape: [2]
+    q:
+      distribution: uniform
+      dtype: float16
+      seed: 42
+      shape: [2, 4, 64]
+    q_lengths:
+      distribution: randint
+      dtype: int32
+      high: 1
+      low: 1
+      seed: 0
+      shape: [2]
+    q_start:
+      distribution: sequence
+      dtype: int32
+      high: 1
+      low: 0
+      seed: 0
+      shape: [2]
+    v_cache:
+      distribution: uniform
+      dtype: float16
+      seed: 44
+      shape: [16, 16, 2, 64]
+generator: sha256-tensor-v2
+schema_version: 2

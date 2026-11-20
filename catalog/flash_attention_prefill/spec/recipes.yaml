@@ -1,0 +1,61 @@
+cases:
+- id: context128
+  inputs:
+    k:
+      distribution: uniform
+      dtype: float16
+      seed: 43
+      shape:
+      - 1
+      - 2
+      - 128
+      - 64
+    q:
+      distribution: uniform
+      dtype: float16
+      seed: 42
+      shape:
+      - 1
+      - 2
+      - 128
+      - 64
+    v:
+      distribution: uniform
+      dtype: float16
+      seed: 44
+      shape:
+      - 1
+      - 2
+      - 128
+      - 64
+- id: context256
+  inputs:
+    k:
+      distribution: uniform
+      dtype: float16
+      seed: 43
+      shape:
+      - 1
+      - 2
+      - 256
+      - 64
+    q:
+      distribution: uniform
+      dtype: float16
+      seed: 42
+      shape:
+      - 1
+      - 2
+      - 256
+      - 64
+    v:
+      distribution: uniform
+      dtype: float16
+      seed: 44
+      shape:
+      - 1
+      - 2
+      - 256
+      - 64
+generator: sha256-tensor-v2
+schema_version: 2
