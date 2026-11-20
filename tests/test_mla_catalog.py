@@ -1,5 +1,6 @@
 """CPU checks for the MLA decode spec and source pins."""
 
+import ast
 import hashlib
 import importlib.util
 import inspect
@@ -47,6 +48,15 @@ class MlaCatalogTest(unittest.TestCase):
             hashlib.sha256((directory / "LICENSE").read_bytes()).hexdigest(),
             provenance["files"]["LICENSE"],
         )
+
+        code = (directory / "kernel.py").read_bytes()
+        lines = code.splitlines(keepends=True)
+        functions = {
+            node.name: hashlib.sha256(b"".join(lines[node.lineno - 1 : node.end_lineno])).hexdigest()
+            for node in ast.parse(code).body
+            if isinstance(node, ast.FunctionDef)
+        }
+        self.assertEqual(functions, provenance["gpu_sha256"])
 
     def test_reference_respects_page_order_and_ignores_padding_and_rope_values(self):
         spec = importlib.util.spec_from_file_location("mla_reference", ROOT / "spec/reference.py")

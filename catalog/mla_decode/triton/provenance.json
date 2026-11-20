@@ -7,9 +7,9 @@
     "LICENSE": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
   },
   "gpu_sha256": {
-    "flash_mla_attn_kernel": "2a788a077c13e73b2fb5e5811cb6269c67cb11e8bcf85054c7c79ab58613a358",
+    "flash_mla_attn_kernel": "661e88a36e82ac2e36b3d118049672890a30f48db8ae41de35d6d1b78d6cdd18",
     "program_id": "eb48b2ee62c0c712e92ddb4b52a3a7405b3a6611e5af12a44d333f4e9856c32e"
   },
   "kernel_file_sha256": "8bf9c432cf215febd8a2512c4ebc67d0d7f364c9f916f0b475a60fe952951b87",
-  "integration": "Verbatim GPU functions with LF line endings. Static factory supplies original heuristic and launch parameters. Bind the JIT helper through a module so Triton does not deepcopy its runtime lock."
+  "integration": "GPU functions preserve upstream bytes after normalization to LF. Function digests cover each slice from the def line through the last body line, including its newline. Static factory supplies original heuristic and launch parameters. Bind the JIT helper through a module so Triton does not deepcopy its runtime lock."
 }
