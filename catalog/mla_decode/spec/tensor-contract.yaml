@@ -1,0 +1,28 @@
+schema_version: 2
+cases:
+  h64_kv128:
+    outputs:
+      out:
+        shape:
+        - 1
+        - 64
+        - 512
+        dtype: float16
+    scalars:
+      sm_scale:
+        kind: float64
+        value: 0.041666666666666664
+    aliases: {}
+  h64_kv129:
+    outputs:
+      out:
+        shape:
+        - 1
+        - 64
+        - 512
+        dtype: float16
+    scalars:
+      sm_scale:
+        kind: float64
+        value: 0.041666666666666664
+    aliases: {}

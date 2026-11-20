@@ -1,0 +1,20 @@
+implementation:
+  build:
+    abi: tensor-v2
+    adapter: triton
+    artifact: mla_decode_triton_a5
+    inputs:
+    - factory.py
+    - kernel.py
+    options:
+      optimization: release
+      triton_compile_mode: simd
+  device: a5
+  entrypoint: factory.py:build
+  language: triton
+kernel: team/mla_decode
+schema_version: 2
+spec_version: 1
+validation:
+  requested_atol: 0.001
+  requested_rtol: 0.001
