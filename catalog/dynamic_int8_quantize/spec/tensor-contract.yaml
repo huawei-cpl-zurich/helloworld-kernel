@@ -1,0 +1,28 @@
+cases:
+  rows32_cols128:
+    aliases: {}
+    outputs:
+      quantized:
+        dtype: int8
+        shape:
+        - 32
+        - 128
+      scale:
+        dtype: float32
+        shape:
+        - 32
+    scalars: {}
+  rows64_cols512:
+    aliases: {}
+    outputs:
+      quantized:
+        dtype: int8
+        shape:
+        - 64
+        - 512
+      scale:
+        dtype: float32
+        shape:
+        - 64
+    scalars: {}
+schema_version: 2

@@ -1,0 +1,16 @@
+{
+  "repository": "https://gitcode.com/cann/ops-nn",
+  "revision": "8857e4a676b412161dd47815cd2aa20993146871",
+  "path": "quant/dynamic_quant/op_kernel/arch35/dynamic_quant_regbase_full_load.h",
+  "committed_at": "2026-11-02T20:55:15+08:00",
+  "dependencies": {
+    "quant/dynamic_quant/op_kernel/arch35/dynamic_quant_regbase_full_load.h": "2e97ead241a742c07410faf5723f0b0fa14e815aa9569e26000deb91f6b5a43a",
+    "quant/dynamic_quant/op_kernel/arch35/dynamic_quant_regbase_base.h": "587d84aaea84b3025e140e2d124643c464f4281b17af26c6948103f55fa11120",
+    "quant/dynamic_quant/op_kernel/arch35/dynamic_quant_arch35_tilingdata.h": "982865a1f756bdfdcbf8a56dca1a100285ff23a8310c7e5d8d219d87c6da1723"
+  },
+  "token_sha256": "576efec23e0863668ab42871e6dec369f3f650e01c96ebd93b30c7975eadfec2",
+  "status": "staged_not_validated",
+  "integration": "unchanged full-load kernel class, static full-row schedule and pointer-only launch wrapper",
+  "selection": "All five selected source revisions produce the same native binary for these cases; retain latest only.",
+  "qualification": "Website validation pending"
+}
