@@ -1,0 +1,10 @@
+{
+  "repository": "https://github.com/triton-lang/triton-ascend",
+  "revision": "51d56c10b03c8bec48826dee9d7417b2b9083483",
+  "path": "third_party/ascend/tutorials/03-matrix-multiplication.py",
+  "committed_at": "2026-07-10T10:38:11+08:00",
+  "source_sha256": "4218d298a4bd80db23936af37689cae87d13a7884f9696b96a3df77cf89c1698",
+  "license_path": "LICENSE",
+  "license_sha256": "4c4e9e91d43be2b3ec01b4dc4d7b810aa43c7bca960e555f817b054ddd283ada",
+  "source_policy": "kernel.py is byte-identical upstream source; factory.py selects unchanged JIT definitions and freezes host launch parameters."
+}

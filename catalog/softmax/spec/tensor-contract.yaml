@@ -1,0 +1,20 @@
+cases:
+  rows32_cols128:
+    aliases: {}
+    outputs:
+      out:
+        dtype: float16
+        shape:
+        - 32
+        - 128
+    scalars: {}
+  rows45_cols257:
+    aliases: {}
+    outputs:
+      out:
+        dtype: float16
+        shape:
+        - 45
+        - 257
+    scalars: {}
+schema_version: 2

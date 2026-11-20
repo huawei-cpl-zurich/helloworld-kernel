@@ -1,0 +1,25 @@
+implementation:
+  build:
+    abi: tensor-v2
+    adapter: ascendc
+    artifact: rms_norm_ascendc_a5
+    inputs:
+    - factory.py
+    - norm/rms_norm/norm_common/reduce_common_regbase.h
+    - norm/rms_norm/norm_common/reduce_common_regbase_part1.h
+    - norm/rms_norm/norm_common/reduce_common_regbase_part2.h
+    - norm/rms_norm/op_kernel/arch35/rms_norm_regbase_common.h
+    - norm/rms_norm/op_kernel/arch35/rms_norm_regbase_perf.h
+    - norm/rms_norm/op_kernel/reduce_common.h
+    - norm/rms_norm/op_kernel/rms_norm_base.h
+    options:
+      optimization: release
+  device: a5
+  entrypoint: factory.py:build
+  language: ascendc
+kernel: team/rms_norm
+schema_version: 2
+spec_version: 1
+validation:
+  requested_atol: 0.0001
+  requested_rtol: 0.001

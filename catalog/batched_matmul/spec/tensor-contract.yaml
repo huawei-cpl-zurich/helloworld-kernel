@@ -1,0 +1,22 @@
+cases:
+  batch2_size128:
+    aliases: {}
+    outputs:
+      out:
+        dtype: float16
+        shape:
+        - 2
+        - 128
+        - 128
+    scalars: {}
+  batch4_size256:
+    aliases: {}
+    outputs:
+      out:
+        dtype: float16
+        shape:
+        - 4
+        - 256
+        - 256
+    scalars: {}
+schema_version: 2

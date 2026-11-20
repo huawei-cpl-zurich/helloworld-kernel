@@ -1,0 +1,52 @@
+cases:
+  rows32_experts16:
+    aliases: {}
+    outputs:
+      experts:
+        dtype: int64
+        shape:
+        - 32
+        - 2
+      source_rows:
+        dtype: int32
+        shape:
+        - 32
+        - 2
+      weights:
+        dtype: float32
+        shape:
+        - 32
+        - 2
+    scalars:
+      k:
+        kind: int64
+        value: 2
+      renormalize:
+        kind: bool
+        value: false
+  rows64_experts32:
+    aliases: {}
+    outputs:
+      experts:
+        dtype: int64
+        shape:
+        - 64
+        - 2
+      source_rows:
+        dtype: int32
+        shape:
+        - 64
+        - 2
+      weights:
+        dtype: float32
+        shape:
+        - 64
+        - 2
+    scalars:
+      k:
+        kind: int64
+        value: 2
+      renormalize:
+        kind: bool
+        value: true
+schema_version: 2
