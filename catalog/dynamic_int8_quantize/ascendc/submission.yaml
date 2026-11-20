@@ -1,0 +1,21 @@
+implementation:
+  build:
+    abi: tensor-v2
+    adapter: ascendc
+    artifact: dynamic_int8_quantize_ascendc_a5
+    inputs:
+    - factory.py
+    - quant/dynamic_quant/op_kernel/arch35/dynamic_quant_regbase_full_load.h
+    - quant/dynamic_quant/op_kernel/arch35/dynamic_quant_regbase_base.h
+    - quant/dynamic_quant/op_kernel/arch35/dynamic_quant_arch35_tilingdata.h
+    options:
+      optimization: release
+  device: a5
+  entrypoint: factory.py:build
+  language: ascendc
+kernel: team/dynamic_int8_quantize
+schema_version: 2
+spec_version: 1
+validation:
+  requested_atol: 0.0001
+  requested_rtol: 0.001
