@@ -2,11 +2,16 @@
 
 import hashlib
 import importlib.util
+import inspect
 import json
 from pathlib import Path
+import sys
+from types import ModuleType
 import unittest
+from unittest.mock import patch
 
 import torch
+import yaml
 
 
 ROOT = Path(__file__).resolve().parents[1] / "catalog/mla_decode"
@@ -45,3 +50,40 @@ class MlaCatalogTest(unittest.TestCase):
             self.assertEqual(result.device.type, device)
             if device == "cpu":
                 self.assertTrue(torch.equal(result, torch.full_like(result, 5)))
+
+    def test_factory_uses_both_frozen_paged_signatures(self):
+        triton = ModuleType("triton")
+        language = ModuleType("triton.language")
+        triton.language = language
+        triton.jit = lambda function: function
+        language.constexpr = object()
+        language.tensor = object()
+        loader = importlib.util.spec_from_file_location("mla_factory", ROOT / "triton/factory.py")
+        factory = importlib.util.module_from_spec(loader)
+        manifest = yaml.safe_load((ROOT / "spec/cannery.yaml").read_text())["spec"]
+        recipes = yaml.safe_load((ROOT / "spec/recipes.yaml").read_text())["cases"]
+        contract = yaml.safe_load((ROOT / "spec/tensor-contract.yaml").read_text())["cases"]
+        submission = yaml.safe_load((ROOT / "triton/submission.yaml").read_text())
+        self.assertEqual(submission["implementation"]["build"]["options"]["triton_compile_mode"], "simd")
+        with patch.dict(sys.modules, {"triton": triton, "triton.language": language}):
+            loader.loader.exec_module(factory)
+            for case in recipes:
+                inputs = case["inputs"]
+                scale = contract[case["id"]]["scalars"]["sm_scale"]
+                launch = factory.build({
+                    "inputs": [{"name": name, **inputs[name]} for name in manifest["interface"]["inputs"]],
+                    "scalars": [{"name": "sm_scale", **scale}],
+                })
+                self.assertEqual(launch["bindings"], [
+                    ["Q_ptr", "input", "q"],
+                    ["Kv_cache", "input", "kv_cache"],
+                    ["Req_to_tokens", "input", "block_table"],
+                    ["B_seq_len", "input", "kv_lengths"],
+                    ["O", "output", "out"],
+                ])
+                bound = {binding[0] for binding in launch["bindings"]} | launch["constants"].keys()
+                self.assertEqual(set(inspect.signature(launch["kernel"]).parameters), bound)
+                self.assertIs(launch["kernel"].__globals__["tle"].program_id, factory.module.program_id)
+                self.assertEqual(launch["constants"]["stride_req_to_tokens_bs"], inputs["block_table"]["shape"][0])
+                self.assertEqual(launch["constants"]["sm_scale"], scale["value"])
+                self.assertEqual(launch["grid"], [4, 1, 1])
