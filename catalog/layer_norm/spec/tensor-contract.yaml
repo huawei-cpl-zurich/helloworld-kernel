@@ -1,0 +1,42 @@
+cases:
+  rows32_cols128:
+    aliases: {}
+    outputs:
+      mean:
+        dtype: float32
+        shape:
+        - 32
+      out:
+        dtype: float16
+        shape:
+        - 32
+        - 128
+      rstd:
+        dtype: float32
+        shape:
+        - 32
+    scalars:
+      epsilon:
+        kind: float64
+        value: 1.0e-05
+  rows45_cols257:
+    aliases: {}
+    outputs:
+      mean:
+        dtype: float32
+        shape:
+        - 45
+      out:
+        dtype: float16
+        shape:
+        - 45
+        - 257
+      rstd:
+        dtype: float32
+        shape:
+        - 45
+    scalars:
+      epsilon:
+        kind: float64
+        value: 1.0e-05
+schema_version: 2

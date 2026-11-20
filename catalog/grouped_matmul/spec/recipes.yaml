@@ -1,0 +1,51 @@
+cases:
+- id: m256_k128_n128_g2
+  inputs:
+    a:
+      distribution: uniform
+      dtype: float16
+      seed: 42
+      shape:
+      - 256
+      - 128
+    b:
+      distribution: uniform
+      dtype: float16
+      seed: 43
+      shape:
+      - 256
+      - 128
+    group_list:
+      distribution: sequence
+      dtype: int32
+      high: 256
+      low: 128
+      seed: 0
+      shape:
+      - 2
+- id: m512_k256_n256_g4
+  inputs:
+    a:
+      distribution: uniform
+      dtype: float16
+      seed: 42
+      shape:
+      - 512
+      - 256
+    b:
+      distribution: uniform
+      dtype: float16
+      seed: 43
+      shape:
+      - 1024
+      - 256
+    group_list:
+      distribution: sequence
+      dtype: int32
+      high: 512
+      low: 128
+      seed: 0
+      shape:
+      - 4
+generator: sha256-tensor-v2
+schema_version: 2

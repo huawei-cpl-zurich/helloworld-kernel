@@ -1,0 +1,47 @@
+cases:
+- id: tokens32_hidden4096
+  inputs:
+    indices:
+      distribution: permutation
+      dtype: int32
+      seed: 43
+      shape:
+      - 64
+    tokens:
+      distribution: uniform
+      dtype: float16
+      seed: 42
+      shape:
+      - 64
+      - 4096
+    weights:
+      distribution: uniform
+      dtype: float32
+      seed: 44
+      shape:
+      - 32
+      - 2
+- id: tokens45_hidden7168
+  inputs:
+    indices:
+      distribution: permutation
+      dtype: int32
+      seed: 43
+      shape:
+      - 90
+    tokens:
+      distribution: uniform
+      dtype: float16
+      seed: 42
+      shape:
+      - 90
+      - 7168
+    weights:
+      distribution: uniform
+      dtype: float32
+      seed: 44
+      shape:
+      - 45
+      - 2
+generator: sha256-tensor-v2
+schema_version: 2
