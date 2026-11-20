@@ -1,0 +1,36 @@
+{
+  "repository": "https://gitcode.com/cann/ops-nn",
+  "revision": "7a2786b4e8ea57728cb3680c786150422edc95ac",
+  "entry_header": "norm/rms_norm/op_kernel/arch35/rms_norm_regbase_perf.h",
+  "headers": {
+    "norm/rms_norm/op_kernel/arch35/rms_norm_regbase_perf.h": {
+      "upstream_path": "norm/rms_norm/op_kernel/arch35/rms_norm_regbase_perf.h",
+      "sha256": "8a05dcdeae10fa73305e44529bd97af18957a56ecd884d599c66511c2738a673"
+    },
+    "norm/rms_norm/norm_common/reduce_common_regbase.h": {
+      "upstream_path": "norm/norm_common/op_kernel/reduce_common_regbase.h",
+      "sha256": "3c8cf28e91ac1b1b3205a4a66a24ae3af334a04a90bb55b63f9dcca6768f7907"
+    },
+    "norm/rms_norm/norm_common/reduce_common_regbase_part2.h": {
+      "upstream_path": "norm/norm_common/op_kernel/reduce_common_regbase_part2.h",
+      "sha256": "8060f0ca5be53b25d473e6a49de4d6b42b60cda6d6fd71ee6fbf9a285ee79939"
+    },
+    "norm/rms_norm/norm_common/reduce_common_regbase_part1.h": {
+      "upstream_path": "norm/norm_common/op_kernel/reduce_common_regbase_part1.h",
+      "sha256": "acd15a2d392110e3d0b305a33ba7f82210ffe55bd9a84851ecfee8c0dd33cd1b"
+    },
+    "norm/rms_norm/op_kernel/arch35/rms_norm_regbase_common.h": {
+      "upstream_path": "norm/rms_norm/op_kernel/arch35/rms_norm_regbase_common.h",
+      "sha256": "f3e7081687e53f95103eecac9c72cf52298eddc07333cac80e3390fa5bafc686"
+    },
+    "norm/rms_norm/op_kernel/rms_norm_base.h": {
+      "upstream_path": "norm/rms_norm/op_kernel/rms_norm_base.h",
+      "sha256": "d9524442b7105d0d25d4f54b8c2f5dd3ac19714c88e976a6ac9d29cc50b14441"
+    },
+    "norm/rms_norm/op_kernel/reduce_common.h": {
+      "upstream_path": "norm/rms_norm/op_kernel/reduce_common.h",
+      "sha256": "533655d8920be3a3f1a62872f792942ec10c16e91951863725961c20d7634be8"
+    }
+  },
+  "license_sha256": "cb282ac2b66d7d6734c3fb354db792b28cf23ab29fbc16d5cfd8bd542bedeb1e"
+}
