@@ -458,3 +458,20 @@ __aicore__ inline void ComputeLatterY(LocalTensor<DX>& xLocal, LocalTensor<DG>& 
                     LoadAlign(gammaTmp2, gammaAddr2 + i * V_LENGTH);
                     Adds(gammaReg1, gammaTmp1, 1.0f, maskReg);
                     Adds(gammaReg2, gammaTmp2, 1.0f, maskReg);
+                } else {
+                    LoadAlign(gammaReg1, gammaAddr1 + i * V_LENGTH);
+                    LoadAlign(gammaReg2, gammaAddr2 + i * V_LENGTH);
+                }
+                Mul(vRegTmp1, xReg1, rstdReg, maskReg);
+                Mul(vRegTmp2, xReg2, rstdReg, maskReg);
+                Mul(yReg1, vRegTmp1, gammaReg1, maskReg);
+                Mul(yReg2, vRegTmp2, gammaReg2, maskReg);
+                StoreAlign(yAddr1 + i * V_LENGTH, yReg1, maskReg);
+                StoreAlign(yAddr2 + i * V_LENGTH, yReg2, maskReg);
+            }
+        }
+    }
+}
+
+} // namespace RmsNorm
+#endif // OPS_BUILT_IN_TBE_IMPL_ASCENDC_RMS_NORM_REGBASE_COMMON_H
