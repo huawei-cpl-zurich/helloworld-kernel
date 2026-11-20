@@ -8,6 +8,7 @@ implementation:
     - kernel.py
     options:
       optimization: release
+      triton_compile_mode: simd
   device: a5
   entrypoint: factory.py:build
   language: triton
