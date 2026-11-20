@@ -10,6 +10,6 @@ An offline compile probe accepted both frozen variants through Cannery's
 existing static export validator. Device admission and numeric qualification
 run through the Cannery site.
 
-V2 preserves the v1 interface and tolerances. It changes the two-page
-case's block-table seed so the logical page order is `[1, 0]`.
-The v1 cases both read pages in physical order.
+V2 preserves the v1 interface and tolerances. It changes the
+block-table seed for both cases. The one-page case still generates `[0]`.
+The two-page case generates `[1, 0]`, exercising page indirection.
